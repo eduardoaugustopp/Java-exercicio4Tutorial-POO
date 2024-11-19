@@ -10,8 +10,16 @@ public class Ufc {
 		L[4] = new Lutador ("REACT", "Espanha", 31, 1.75f, 62f, 11, 3, 1);
 		L[5] = new Lutador ("C#", "Alemanha", 31, 1.75f, 53f, 11, 3, 1);
 		
+
+		
+		Luta UEC01 = new Luta();
+		UEC01.marcarLuta(L[0], L[1]);
+		UEC01.lutar();
+		
 		L[0].status();
-		L[3].apresentar();
+		L[1].status();
+		
+		
 		
 	}
 

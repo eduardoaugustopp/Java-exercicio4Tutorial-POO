@@ -5,7 +5,7 @@
 
 > _Eu fiz com Eclipse_
 
-**(...) continua ->Curso POO teoria #08a - Relacionamento de Agregação**
+**(...) continua ->Curso POO Java #11b - Herança (Parte 2)**
 
 > POO -> aproximar o mundo digital do mundo real
 > <img alt="" src="./img/poo.png" width="100%">
@@ -906,7 +906,208 @@ public class Lutador {
 
 > Relação de agregação na POO -> é quando um objeto tem um outro objeto isso vai fazer com que eu tenha que criar uma classe que agregue outras classes
 
-**(...) continua ->Curso POO teoria #08a - Relacionamento de Agregação**
+> Tipos abstratos de dados -> transaformar classes em determinados tipos
+
+> Diagramas de relacionamentos só contém dentro das entidades dados no caso do diagrama de classes eu tenho dados e funções:
+> <img alt="" src="./img/agregacao.png" width="50%"></br>
+
+> 'desafiado' 'desafiante' -> se colocar caractere vai ter que colocar o nome do lutador, em vez de utilizar um tipo primitivo, coloca um tipo abstrato, vou ter uma instância de lutador e essa instância de lutador vai o meu desafiado, cria uma relação entre o tipo abstrato e uma instâcia de uma determinada classe:
+
+- Essa classe esta relacionando com outra classe; os atributos desafiado e desafiantes são instâncias de outra classe;
+- A agregação é conhecida como relacionamento do tipo tem um, 'uma luta tem um lutador';
+
+```
+package com.ufc.pacote;
+
+public class Luta {
+	private Lutador desafiado;
+	private Lutador desafiante;
+	private int rounds;
+	private boolean aprovada;
+}
+```
+
+> <img alt="" src="./img/agregacao2.png" width="100%"></br>
+
+> <img alt="" src="./img/agregacao3.png" width="100%"></br>
+
+```
+LUTA
+
+package com.ufc.pacote;
+
+import java.util.Random;
+
+public class Luta {
+	private Lutador desafiado;
+	private Lutador desafiante;
+	private int rounds;
+	private boolean aprovada;
+
+
+	public Lutador getDesafiado() {
+		return this.desafiado;
+	}
+
+	public void  setDesafiado(Lutador ado) {
+		this.desafiado = ado;
+	}
+
+	public Lutador getDesafiante() {
+		return this.desafiante;
+	}
+
+	public void setDesafiante(Lutador ante) {
+		this.desafiante = ante;
+	}
+
+	public int getRounds() {
+		return this.rounds;
+	}
+
+	public void setRounds(int r) {
+		this.rounds = r;
+	}
+
+	public boolean getAprovada() {
+		return this.aprovada;
+	}
+
+	public void setAprovada(boolean a) {
+		this.aprovada = a;
+	}
+
+	public void marcarLuta(Lutador L1, Lutador L2){
+		if (L1.getCategoria().equals(L2.getCategoria())
+			&&  L1 != L2) {
+				this.aprovada = true;
+				this.desafiado = L1;
+				this.desafiante = L2;
+			} else {
+				this.aprovada = false;
+				this.desafiado = null;
+				this.desafiante = null;
+			}
+	}
+
+	public void lutar() {
+		if (this.aprovada) {
+			System.out.println("DESAFIADO");
+			this.getDesafiado().apresentar();
+			System.out.println("DESAFIANTE");
+			this.getDesafiante().apresentar();
+
+			Random aleatorio = new Random();
+			int vencedor = aleatorio.nextInt(3); // vai gerar 3 resultados 0 1 2
+			switch(vencedor) {
+			case 0: //Empate
+				System.out.println("EMPATOU");
+				this.getDesafiado().empatarLuta();
+				this.getDesafiante().empatarLuta();
+				break;
+
+			case 1:// Desafiado vence
+				System.out.println("Vitória do " + this.getDesafiado().getNome());
+				this.getDesafiado().ganharLuta();
+				this.desafiante.perderLuta();
+				break;
+			case 2: // Desafiante vence
+				System.out.println("Vitória do " + this.getDesafiante().getNome());
+				this.getDesafiante().ganharLuta();
+				this.getDesafiado().perderLuta();
+				break;
+			}
+
+
+		} else {
+			System.out.println("A luta não pode acontecer");
+		}
+
+	}
+}
+```
+
+```
+MAIN
+
+package com.ufc.pacote;
+
+public class Ufc {
+	public static void main(String[] args) {
+		Lutador[] L = new Lutador[6];
+		L[0] = new Lutador("JAVA", "França", 31, 1.75f, 68.9f, 11, 3, 1);
+		L[1] = new Lutador("JS", "Brasil", 31, 1.7f, 57.8f, 11, 3, 1);
+		L[2] = new Lutador("CSS", "Argentina", 31, 1.75f, 80.9f, 11, 3, 1);
+		L[3] = new Lutador("HTML", "Holanda", 31, 1.75f, 81.6f, 11, 3, 1);
+		L[4] = new Lutador("REACT", "Espanha", 31, 1.75f, 62f, 11, 3, 1);
+		L[5] = new Lutador("C#", "Alemanha", 31, 1.75f, 53f, 11, 3, 1);
+
+		Luta UEC01 = new Luta();
+		UEC01.marcarLuta(L[0], L[1]);
+		UEC01.lutar();
+
+		L[0].status();
+		L[1].status();
+
+	}
+}
+```
+
+> EXERCICIO
+
+> <img alt="" src="./img/diagrama1.png" width="50%"></br>
+
+> 'to.string' -> ele retorna uma String
+> <img alt="" src="./img/string.png" width="100%"></br>
+
+```
+LIVRO
+	public String detalhes() {
+		return "Livro [titulo=" + titulo + ", autor=" + autor + ", totPaginas=" + totPaginas + ", pagAtual=" + pagAtual
+				+ ", aberto=" + aberto + ", leitor=" + leitor.getNome() + "]";
+	}
+```
+
+```
+AULA 08 - MAIN
+System.out.println(l[0].detalhes());
+```
+
+> HERANÇA -> os filhos herdam características e comportamentos de uma mãe;</br> > <img alt="" src="./img/heranca.png" width="50%"></br> > <img alt="" src="./img/heranca2.png" width="50%"></br> > <img alt="" src="./img/heranca3.png" width="50%"></br>
+
+- 'extends' -> é ampliar, nesse exemplo estou ampliando as características de pessoas;
+  > <img alt="" src="./img/heranca4.png" width="50%"></br>
+
+```
+package com.aula09.pacote;
+
+public class Aluno extends Pessoa {
+	private int matr;
+	private String curso;
+}
+```
+
+> <img alt="" src="./img/hierarquia.png" width="50%"></br>
+
+> TIPOS DE HERANÇA
+
+> 1 - Herança de implementação -> também é conhecida como herança pobre, a mais simples que existe;
+
+> 2 - Herança para diferença -> é a herança mais completa;
+
+> <img alt="" src="./img/hierarquia2.png" width="50%"></br>
+
+> CONCEITO ABSTRATO E FINAL -> vai depender de onde aplicar esse conceito, um método e uma classe podem ser abstratos e finais, então pode ter um método abstrato e final e também pode ter uma classe abstrata e uma classe final, o nome é o mesmo o final e abstrato mas a funcionalidade a operabilidade disso vai ser diferente;
+
+- CLASSE ABSTRATA -> defini uma classe como abstrata, ela não pode gerar filhos 'objetos';
+- MÉTODO ABSTRATO -> só pode ser colocado dentro de uma interface ou de uma classe abstrata;
+- CLASSE FINAL -> ela não pode ter filhos, é obrigatoriamnete uma folha, ela não pode utilizar herança;
+- MÉTODO FINAL -> ele não pode ser sobreposto isso é não pode gerar uma especialização desse método;
+  > <img alt="" src="./img/conceitos.png" width="50%"></br>
+
+> <img alt="" src="./img/conceitos2.png" width="50%"></br>
+
+**(...) continua ->Curso POO Java #11b - Herança (Parte 2)**
 
 ## �� Tecnologias
 
