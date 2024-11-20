@@ -5,8 +5,6 @@
 
 > _Eu fiz com Eclipse_
 
-**(...) continua ->Curso POO Java #11b - Herança (Parte 2)**
-
 > POO -> aproximar o mundo digital do mundo real
 > <img alt="" src="./img/poo.png" width="100%">
 
@@ -1107,13 +1105,45 @@ public class Aluno extends Pessoa {
 
 > <img alt="" src="./img/conceitos2.png" width="50%"></br>
 
-**(...) continua ->Curso POO Java #11b - Herança (Parte 2)**
+> <img alt="" src="./img/metodo.png" width="100%"></br>
+
+- 'final' -> utilizar nas classe quando não quiser que ela tenha filho e nos métodos quando não quiser que esse método seja sobreposto;
+
+> CONCEITO POLIMORFISMO -> poli = muitas / morfo = formas; muitas formas de se fazer alguma coisa;
+
+> <img alt="" src="./img/polimorfismo.png" width="50%"></br>
+
+- ASSINATURA DO MÉTODO -> todo método tem uma assinaturae precisa identificar, diferenciar assianaturas iguais e diferentes poque o polimorfismo trata desses conceitos na sua essência;
+- A quantidade e o tipo de parâmetro identifica essa assinatura;
+
+> <img alt="" src="./img/assinatura.png" width="50%"></br> > <img alt="" src="./img/assinatura2.png" width="50%"></br>
+
+> TIPOS DE POLIMORFISMO - OS 2 PRINCIPAIS
+
+- 1 -> Sobreposição: é uma características, é um dos polimorfismos mais utilizados; fazer uma determinada coisa com o mesmo nome e essa coisa poder agir de diferentes maneiras;
+- 2 -> Sobrecarga:
+
+- Quando tem métodos abstratos é obrigado a desenvolve-los;
+
+> <img alt="" src="./img/poli.png" width="100%"></br> > <img alt="" src="./img/poli2.png" width="100%"></br> > <img alt="" src="./img/poli3.png" width="100%"></br> > <img alt="" src="./img/poli4.png" width="100%"></br> > <img alt="" src="./img/poli5.png" width="100%"></br>
+
+> <img alt="" src="./img/sobre.png" width="50%"></br>
+
+> <img alt="" src="./img/poli6.png" width="100%"></br> > <img alt="" src="./img/poli7.png" width="100%"></br> > <img alt="" src="./img/poli8.png" width="50%"></br>
+
+> EXERCICIO AULA 11
+
+> POLIMORFISMO TIPO SOBRECARGA ->
+
+> <img alt="" src="./img/sobrecarga.png" width="50%"></br> > <img alt="" src="./img/polimorfismo2.png" width="50%"></br>
+
+> <img alt="" src="./img/sobrecarga2.png" width="100%"></br> > <img alt="" src="./img/sobrecarga3.png" width="100%"></br> > <img alt="" src="./img/sobrecarga4.png" width="100%"></br>
 
 ## �� Tecnologias
 
 <div>
   
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/eclipse/eclipse-original.svg" width="40" height="40"/>
- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" width="40" height="40"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/eclipse/eclipse-original.svg" width="40" height="40"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" width="40" height="40"/>
           
 </div>
