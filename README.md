@@ -902,11 +902,11 @@ public class Lutador {
 }
 ```
 
-> Relação de agregação na POO -> é quando um objeto tem um outro objeto isso vai fazer com que eu tenha que criar uma classe que agregue outras classes
+> Relação de agregação na POO -> é quando um objeto tem um outro objeto isso vai fazer com que eu tenha que criar uma classe que agregue outras classes</br>
 
-> Tipos abstratos de dados -> transaformar classes em determinados tipos
+> Tipos abstratos de dados -> transaformar classes em determinados tipos</br>
 
-> Diagramas de relacionamentos só contém dentro das entidades dados no caso do diagrama de classes eu tenho dados e funções:
+> Diagramas de relacionamentos só contém dentro das entidades dados no caso do diagrama de classes eu tenho dados e funções:</br>
 > <img alt="" src="./img/agregacao.png" width="50%"></br>
 
 > 'desafiado' 'desafiante' -> se colocar caractere vai ter que colocar o nome do lutador, em vez de utilizar um tipo primitivo, coloca um tipo abstrato, vou ter uma instância de lutador e essa instância de lutador vai o meu desafiado, cria uma relação entre o tipo abstrato e uma instâcia de uma determinada classe:
