@@ -70,7 +70,7 @@
 - O que está executando é o método 'main', ele está dentro de uma classe que está utilizando a classe caneta;
 - Dentro da classe Aula02, tem um método principal que está utilizando o objeto 'c1' que é uma caneta então ele vai deixar mexer num atributo protegido porque ele esta dentro de uma classe que utiliza a classe caneta mas não dos privados:
 
-```
+```java
 public class Caneta
 	public String modelo;
 	public String cor;
@@ -80,7 +80,7 @@ public class Caneta
 	public void status()
 ```
 
-```
+```java
 public class Aula02
 
 	public static void main(String[] args) {
@@ -104,11 +104,11 @@ public class Aula02
 - Chamei o 'destampar' e dentro do código 'destampar' esta fazendo com que o 'tampada' fique falso;
 - O privado só quem pode mexer é a própria classe;
 
-```
+```java
 private boolean tampada;
 ```
 
-```
+```java
 	public void tampar() {
 		this.tampada = true;
 
@@ -120,7 +120,7 @@ private boolean tampada;
 	}
 ```
 
-```
+```java
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Caneta c1 = new Caneta();
@@ -186,7 +186,7 @@ private boolean tampada;
 
 > EXERCÍCIO:
 
-```
+```java
 Caneta
 
 package com.aula4.pacote;
@@ -227,7 +227,7 @@ public class Caneta {
 
 > Construtor -> o método construtor sempre tem o nome da classe;
 
-```
+```java
 package com.aula4.pacote;
 
 public class Caneta {
@@ -285,7 +285,7 @@ public class Caneta {
 
 > <img alt="" src="./img/exercicio3.png" width="100%"></br>
 
-```
+```java
 package com.aula4.pacote;
 
 public class Aula4 {
@@ -311,7 +311,7 @@ public class Aula4 {
 
 > EXERCÍCIO:
 
-```
+```java
 aula5
 
 ContaBanco
@@ -353,7 +353,7 @@ Métodos:
 
 > <img alt="" src="./img/passo6.png" width="100%"></br>
 
-```
+```java
 ****ContaBanco****
 
 package com.aula05.pacote;
@@ -490,7 +490,7 @@ public class ContaBanco {
 
 ```
 
-```
+```java
 Aula05
 
 package com.aula05.pacote;
@@ -567,7 +567,7 @@ public class Aula05 {
 - **Override** -> significa sobrescrever, que eu já tinha um método definido que era um método abstrato e que agora eu estou sobrescrevendo isso, eu estou desconsiderando aquela programação que não tinha sido feita e agora eu vou programar cada um deles;
   > <img alt="" src="./img/exercicio6.png" width="100%"></br> > <img alt="" src="./img/exercicio7.png" width="100%"></br> > <img alt="" src="./img/exercicio8.png" width="100%"></br> > <img alt="" src="./img/exercicio9.png" width="100%"></br>
 
-````
+````java
 Aula06
 
 package com.aula06.pacote;
@@ -735,7 +735,7 @@ public class ControleRemoto implements Controlador {
 
 - Objeto dentro de um vetor: Lutador[] L = new Lutador[6];
 
-```
+```java
 AULA 7
 
 package com.ufc.pacote;
@@ -755,7 +755,7 @@ public class Ufc {
 }
 ```
 
-```
+```java
 package com.ufc.pacote;
 
 public class Lutador {
@@ -906,15 +906,14 @@ public class Lutador {
 
 > Tipos abstratos de dados -> transaformar classes em determinados tipos</br>
 
-> Diagramas de relacionamentos só contém dentro das entidades dados no caso do diagrama de classes eu tenho dados e funções:</br>
-> <img alt="" src="./img/agregacao.png" width="50%"></br>
+> Diagramas de relacionamentos só contém dentro das entidades dados no caso do diagrama de classes eu tenho dados e funções:</br> > <img alt="" src="./img/agregacao.png" width="50%"></br>
 
 > 'desafiado' 'desafiante' -> se colocar caractere vai ter que colocar o nome do lutador, em vez de utilizar um tipo primitivo, coloca um tipo abstrato, vou ter uma instância de lutador e essa instância de lutador vai o meu desafiado, cria uma relação entre o tipo abstrato e uma instâcia de uma determinada classe:
 
 - Essa classe esta relacionando com outra classe; os atributos desafiado e desafiantes são instâncias de outra classe;
 - A agregação é conhecida como relacionamento do tipo tem um, 'uma luta tem um lutador';
 
-```
+```java
 package com.ufc.pacote;
 
 public class Luta {
@@ -929,7 +928,7 @@ public class Luta {
 
 > <img alt="" src="./img/agregacao3.png" width="100%"></br>
 
-```
+```java
 LUTA
 
 package com.ufc.pacote;
@@ -1025,7 +1024,7 @@ public class Luta {
 }
 ```
 
-```
+```java
 MAIN
 
 package com.ufc.pacote;
@@ -1058,7 +1057,7 @@ public class Ufc {
 > 'to.string' -> ele retorna uma String
 > <img alt="" src="./img/string.png" width="100%"></br>
 
-```
+```java
 LIVRO
 	public String detalhes() {
 		return "Livro [titulo=" + titulo + ", autor=" + autor + ", totPaginas=" + totPaginas + ", pagAtual=" + pagAtual
@@ -1066,7 +1065,7 @@ LIVRO
 	}
 ```
 
-```
+```java
 AULA 08 - MAIN
 System.out.println(l[0].detalhes());
 ```
@@ -1076,7 +1075,7 @@ System.out.println(l[0].detalhes());
 - 'extends' -> é ampliar, nesse exemplo estou ampliando as características de pessoas;
   > <img alt="" src="./img/heranca4.png" width="50%"></br>
 
-```
+```java
 package com.aula09.pacote;
 
 public class Aluno extends Pessoa {
@@ -1138,6 +1137,271 @@ public class Aluno extends Pessoa {
 > <img alt="" src="./img/sobrecarga.png" width="50%"></br> > <img alt="" src="./img/polimorfismo2.png" width="50%"></br>
 
 > <img alt="" src="./img/sobrecarga2.png" width="100%"></br> > <img alt="" src="./img/sobrecarga3.png" width="100%"></br> > <img alt="" src="./img/sobrecarga4.png" width="100%"></br>
+
+<h3 align="center"> Canal do YouTube: <a href="https://www.youtube.com/watch?v=EyuPFLuvD7Q&list=PL62G310vn6nFIsOCC0H-C2infYgwm8SWW&index=40">DevDojo
+</a> </h3>
+
+## Introdução a classes parte 1
+
+**`Tenho uma classe x, no pacote main faço uma instancia criando um objeto y, esse objeto y é minha variavel de referencia, essa minha variavel de referencia é que pode acessar os atributos da classe x.`**
+
+```java
+package br.com.abc.javacore.introducaoclasses.classes;
+
+public class Estudante {
+    public String nome;
+    public String matricula;
+    public int idade;
+
+}
+
+
+```
+
+```java
+public class EstudanteTest {
+    public static void main(String[] args) {
+        Estudante eduardo = new Estudante();
+
+        eduardo.nome = "Eduardo";
+        eduardo.matricula = "107206";
+        eduardo.idade = 28;
+
+        System.out.println(eduardo.nome);
+        System.out.println(eduardo.matricula);
+        System.out.println(eduardo.idade);
+
+    }
+}
+
+```
+
+## Coesão
+
+**`Coesão`** -> é algo que está relacionado ao propósito das suas classes, quando fala que o código é altamente coeso, estamos falando que as nossas classes elas não estão misturando os propósitos delas existirem;
+
+## Métodos com parâmetros
+
+- Parametro - > entre parentese passa o tipo e o nome do identificador;
+
+```java
+public class Calculadora {
+
+    public void somaDoisNumeros() {
+        System.out.println(5 + 5);
+    }
+
+    public void subtraiDoisNumeros() {
+        System.out.println(5 - 5);
+    }
+
+    public void multiplicaDoisNumero(double num1, int num2) {
+        System.out.println(num1 * num2);
+    }
+}
+
+```
+
+```java
+public class CalculadoraTest {
+    public static void main(String[] args) {
+        Calculadora calc = new Calculadora();
+        calc.somaDoisNumeros();
+        System.out.println("Continua...");
+        calc.subtraiDoisNumeros();
+        calc.multiplicaDoisNumero(2.2, 100);
+        System.out.println("fim!");
+    }
+}
+
+```
+
+---
+
+## Retorno de métodos parte 01
+
+**`Sempre quando vou chamar um metodo com parametro e retorno na classe, no main preciso colocar o tipo, colocar um nome para o identificador(isso se eu quiser usar o valor do retorno, outro caso é só retornar esse valor sem precisar criar uma variavel local para armazenar esse valor retornado) atribuir o metodo e passar um valor local(ou dizer passar argumentos)`**
+
+```java
+public class Calculadora {
+
+    public void somaDoisNumeros() {
+        System.out.println(5 + 5);
+    }
+
+    public void subtraiDoisNumeros() {
+        System.out.println(5 - 5);
+    }
+
+    public void multiplicaDoisNumero(double num1, int num2) {
+        System.out.println(num1 * num2);
+    }
+
+    public double divideDoisNumeros(double num1, double num2) {
+		if(num2 == 0){
+			return 0; // funciona mais ou menos como o break, ele não vai parar mas quando chegar nessa linha ele vai voltar, para quem chamo;
+		}
+        return num1 / num2;
+    }
+}
+
+```
+
+```java
+public class CalculadoraTest {
+    public static void main(String[] args) {
+        Calculadora calc = new Calculadora();
+        System.out.println("Soma");
+        calc.somaDoisNumeros();
+        System.out.println("Subatração");
+        calc.subtraiDoisNumeros();
+        System.out.println("Multiplicação");
+        calc.multiplicaDoisNumero(2.2, 100);
+
+        System.out.println("Divisão");
+        double result = calc.divideDoisNumeros(10,0);// volta sempre aqui
+        System.out.println(result);
+        System.out.println(calc.divideDoisNumeros(20,2));
+
+        System.out.println("fim!");
+    }
+}
+
+```
+
+---
+
+**`Se colocar uma chamada de método dentro de uma 'SYSO' que o retorno não existe é void, vai ter erro de compilação porque o 'SYSO' precisa de um valor para imprimir no console`**
+
+## Orientação Objetos - Métodos pt 05 - Parâmetros tipo primitivo
+
+```java
+public class Calculadora {
+    public void alteraDoisNumeros(int num1, int num2){
+        num1 = 99;
+        num2 = 33;
+        System.out.println("Dentro do método alteraDoisNumeros");
+        System.out.println("num1 = " + num1);
+        System.out.println("num2 = " + num2);
+    }
+}
+
+```
+
+```java
+public class CalculadoraTest {
+    public static void main(String[] args) {
+        Calculadora calcu = new Calculadora();
+        int num1 = 1;
+        int num2 = 2;
+
+        calcu.alteraDoisNumeros(num1, num2);
+
+        System.out.println("Dentro do método Principal de Teste");
+        System.out.println("num1 = "+ num1);
+        System.out.println("num2 = "+ num2);
+    }
+
+			SAÍDA: Dentro do método alteraDoisNumeros
+				   num1 = 1
+				   num2 = 2
+				   Dentro do método Principal de Teste
+				   num1 = 99
+				   num2 = 33
+}
+```
+
+**`Quando passa valores do tipo primitivo para um método, não esta passando a referência daquele objeto memória, esta passando uma cópia`**
+
+**`Quando você passa objetos como argumento você na verdade está passando a referência aonde que o objeto esta guardado`**
+
+**`Eu tenho uma classe x valor de referencia, criei outra classe y com método e tambem esta com valor de referencia, no meu método main ao criar um objeto e atribuir um valor fixo na minha classe y, esse valor de referencia vai sobrescrever qualquer valor atribuido dentro do meu main`**
+
+**`Não alterar os dados de dentro dos objetos que esta passando no método, se precisar fazer algum tipo de alteração, você meio que cria uma cópia do objeto e retorna um novo objeto com estado alterado`**
+
+> <img alt="" src="./img/tipoprimitivo.png" width="80%"></br>
+
+```java
+public class Test04_parametrosTiposReferencia {
+    public static void main(String[] args) {
+
+        /**
+         * Passagem de paramentros
+         * Tipo Referência
+         *
+         * usando classe especifica para imprimir objetos
+         */
+
+        // instancia classe Estudantes e ImprimeEstudante
+		// duas variaveis de referencia que estão fazendo referencia a 2 objetos
+        Estudante estudante01 = new Estudante();
+        Estudante estudante02 = new Estudante();
+		//agora temos uma variavel impressora que tem um método
+        ImpressoraEstudante impressora = new ImpressoraEstudante();
+
+        estudante01.nome = "Joao";
+        estudante01.idade = 15;
+        estudante01.sexo = 'M';
+
+        estudante02.nome = "Maria";
+        estudante02.idade = 16;
+        estudante02.sexo = 'F';
+
+        // "estudante01 e 02" estão sendo referenciado para o "estudante" da
+        // classe ImprimeEstudante, onde os valores são atribuídos e executados
+        // método "imprime";
+        impressora.imprime(estudante01);
+        impressora.imprime(estudante02);
+
+        /**
+         * Passagem de paramentros
+         * Tipo Referência
+         *
+         * usando metodo dentro da propria classe para imprimir
+         */
+    }
+}
+
+```
+
+```java
+public class ImpressoraEstudante {
+    public void imprime(Estudante estudante) {//tem dentro desse método uma variavel de referencia estudante
+        System.out.println("----------------");
+        System.out.println(estudante.nome);
+        System.out.println(estudante.sexo);
+        System.out.println(estudante.idade);
+    }
+}
+
+```
+
+- `this` ->"quero utilizar a variavel de classe que foi declarada em cima";
+  o this faz com que não precise de uma classe só para imprimir; variavel de referencia vai mandar um sinal para dentro desse objeto e esse objeto vai ser responsável por executar;
+
+```java
+public class Estudante {
+	public String nome;
+	public int idade;
+	public char sexo;
+
+
+    public void imprime() {
+        System.out.println("----------------");
+        System.out.println(this.nome);
+        System.out.println(this.sexo);
+        System.out.println(this.idade);
+    }
+}
+
+		main
+
+			estudante01.imprime();
+			estudante02.imprime();
+
+```
+
+52 - Orientação Objetos - Métodos pt 09 - Varargs
 
 ## �� Tecnologias
 
