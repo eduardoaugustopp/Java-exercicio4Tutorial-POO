@@ -1273,7 +1273,7 @@ public class CalculadoraTest {
 
 **`Se colocar uma chamada de método dentro de uma 'SYSO' que o retorno não existe é void, vai ter erro de compilação porque o 'SYSO' precisa de um valor para imprimir no console`**
 
-## Orientação Objetos - Métodos pt 05 - Parâmetros tipo primitivo
+## Parâmetros tipo primitivo
 
 ```java
 public class Calculadora {
@@ -1376,8 +1376,7 @@ public class ImpressoraEstudante {
 
 ```
 
-- `this` ->"quero utilizar a variavel de classe que foi declarada em cima";
-  o this faz com que não precise de uma classe só para imprimir; variavel de referencia vai mandar um sinal para dentro desse objeto e esse objeto vai ser responsável por executar;
+- `this` ->"quero utilizar a variavel de classe que foi declarada em cima"; variavel de referencia vai mandar um sinal para dentro desse objeto e esse objeto vai ser responsável por executar;
 
 ```java
 public class Estudante {
@@ -1401,7 +1400,244 @@ public class Estudante {
 
 ```
 
-52 - Orientação Objetos - Métodos pt 09 - Varargs
+- Se você não usar o this, o compilador assume que você está se referindo à variável mais próxima no escopo, que é o parâmetro do método. Nesse caso, o atributo da classe não seria atualizado.
+- Se o nome do parâmetro for diferente do atributo, o this se torna opcional.
+- this.nome: Refere-se ao atributo da classe.
+- nome (sem this): Refere-se ao parâmetro do método/construtor.
+- Quando os nomes são iguais, o this é necessário para diferenciar entre atributo e parâmetro.
+- Se os nomes forem diferentes, o uso do this é opcional.
+
+```java
+public class Pessoa {
+    private String nome;
+
+    public void setNome(String novoNome) { // Parâmetro com nome diferente
+        nome = novoNome; // Sem necessidade do 'this'
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public static void main(String[] args) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome("Eduardo");
+        System.out.println(pessoa.getNome()); // Saída: Eduardo
+    }
+}
+```
+
+## Varargs
+
+- **`Varargs (ou varíable arguments)`** é um recurso do Java que permite passar uma quantidade variável de argumentos para um método. Em vez de usar um array fixo, o recurso varargs facilita a passagem de valores, tornando o código mais flexível e legível.
+
+- `Sintaxe de Varargs`
+
+Para definir um parâmetro varargs em um método, você utiliza três pontos `(...)` seguidos pelo `tipo do argumento` e pelo `nome da variável`:
+
+```java
+public void metodoVarArgs(int... numeros) {
+    // lógica do método
+}
+```
+
+- Esse método usa varargs (int... numeros), permitindo que o usuário passe uma quantidade variável de inteiros diretamente, sem precisar criar um array manualmente.
+- Internamente, o Java cria um array de inteiros com os valores fornecidos.
+
+```java
+public void somaVarArgs(int... numeros) {
+    int soma = 0;
+    for (int num : numeros) {
+        soma += num;
+    }
+    System.out.println(soma);
+}
+```
+
+Exemplo de chamada:
+
+```java
+somaVarArgs(1, 2, 3, 4); // Saída: 10
+somaVarArgs(5, 5);       // Saída: 10
+```
+
+**`Regra`**: Só pode haver um parâmetro varargs e ele deve ser o último parâmetro da lista.
+
+## Modificador de acesso private, get e set
+
+`SETTER`
+
+- Esses atributos eles só vão poder ser acessados pelo objeto;
+- Quando cria atributos privados, precisa ter um método para acessa-los, então o método fica público e o atributo em si fica privado mas cria uma camada que vai receber esse atributo;
+
+`public` -> para quem quiser colocar os valores, vai atribuir através desse método;</br>
+`void` -> porque se estou colocando um valor em memória, não quero retorno, eu sei o valor, se estou falando que meu nome é João eu não preciso que retorne João eu sei eu estou passando o nome; </br>
+`set` -> todas as vezes que você esta criando um metodo para colocar um valor dentro de um atributo, dentro da memória você começa dizendo a palavra `set` seguindo o nome da `variável`;</br>
+`()` -> colocar dentro do meu atributo, `tipo` e geralmente o nome que coloca no `atributo` é o mesmo que coloca no `parametro` que é a variavel `local`; </br>
+
+**ESCOPO** -> a variavel (`tipo` `variavel`) vai receber ela mesmo, e quando acabar nada vai mudar:</br>
+{o nome que coloca no `atributo` = o nome que coloca no `atributo`}
+
+**`Por isso precisa usar o THIS`**
+{this.o nome que coloca no `atributo` = o nome que coloca no `atributo`}
+
+> <img alt="" src="./img/set.png" width="80%"></br>
+
+**`Se colocar um set dentro de um SYSO ele retorna void por isso precisa do método get para pegar`**
+
+`GETTER`
+
+`public` -> precisa ser oublico se não a outra classe nunca vai conhecer;</br>
+Não é mais `void` porque eu quero um nome, preciso de um retorno que é o mesmo da variavel, `tipo` e geralmente o nome que coloca no `atributo` em seguida a convenção `get` e o nome da `variavel`;</br>
+`()` -> não precisa de parametro porque eu quero pegar o valor que esta em memória;</br>
+`return` -> termina com return this.o nome que coloca no `atributo`;
+
+**Não podemos acessar atraves da variavel de referencia os atributos privados é como se não existisse**
+
+> <img alt="" src="./img/private.png" width="80%"></br>
+
+- Como você está dentro do objeto você tem acesso a tudo que tem dentro do objeto incluindo os métodos;</br>
+  `Exemplo:` nosso `método imprime` ao invés de pegar `this.nome`(this.nome esta retornando o espaço disponivel em memória); o this.nome e o getNome eles tem a mesma função, eles estão retornando o valor que esta em memória para variavel nome;
+
+## init(inicialização) e construtor
+
+- `Construtor`: Usa quando a inicialização deve ocorrer no momento da criação do objeto;
+- `Método init`: Usa quando você quer ter mais controle sobre quando e como inicializar o objeto, ou quando precisa reutilizar a inicialização; está colocando dentro da memória os valores que estamos passando (String nome);
+- O `construtor` é excutado antes de qualquer método que você tem na sua classe;
+
+```java
+public class Pessoa {
+    String nome;
+
+    // Construtor padrão
+    public Pessoa() {
+        System.out.println("Objeto criado, mas sem inicialização.");
+    }
+
+    // Método init
+    public void init(String nome) {
+        this.nome = nome;
+        System.out.println("Objeto inicializado com o nome: " + this.nome);
+    }
+
+    public static void main(String[] args) {
+        Pessoa pessoa = new Pessoa(); // Chama o construtor padrão
+        pessoa.init("Eduardo");       // Chama init explicitamente
+    }
+}
+```
+
+---
+
+## Sobrecarga de métodos
+
+- É você ter o método com o mesmo nome porém o tipo ou a quantidade de parametros são diferentes;
+
+- O problema é que esta repetindo código:
+
+```java
+	public void init(String nome, String tipo, int episodios) {
+        	this.nome = nome;
+        	this.tipo = tipo;
+        	this.episodios = episodios;
+			}
+
+	public void init(String nome, String tipo, int episodios, String genero) {
+        	this.nome = nome;
+        	this.tipo = tipo;
+        	this.episodios = episodios;
+        	this.genero = genero;
+			}
+```
+
+```java
+	public void init(String nome, String tipo, int episodios) {
+        	this.nome = nome;
+        	this.tipo = tipo;
+        	this.episodios = episodios;
+			}
+
+	public void init(String nome, String tipo, int episodios, String genero) {
+        	this.init(nome, tipo, episodios);
+        	this.genero = genero;
+			}
+```
+
+## Construtores
+
+- Todas as vezes que você esta criando um objeto, na verdade você esta construindo um objeto independente de você ver ou não ver um construtor na sua classe, você tem um criado por você;
+- Quando cria `new X()` o `()` não é um método e sim um construtor;
+- Construtores é um inicializador dos objetos é o responsável pela criação no momento que você pede determinados parametros você obrigatoriamente precisa passar a não ser que você tenha um construtor sobrecarregado
+
+## **`regras`**
+
+- A primeira regra é construtor não tem nenhum tipo de retorno;
+  `public`- modificador de acesso seguido pelo nome da `classe` seguido de `()` e as `{}`;
+
+- No momento da criação do objeto estamos passando o nome, não posso mais ter um sem nome, preciso obrigatoriamente colocar;
+
+```java
+	public Anime (String nome) {
+		System.out.println("Dentro do construtor");
+		this.nome = nome;
+}
+	public void init(String nome, String tipo, int episodios) {
+        	this.nome = nome;
+        	this.tipo = tipo;
+        	this.episodios = episodios;
+			}
+
+	public void init(String nome, String tipo, int episodios, String genero) {
+        	this.init(nome, tipo, episodios);
+        	this.genero = genero;
+			}
+
+	MAIN
+
+	Anime anime = new Anime ("teste");
+
+```
+
+- No Java no momento que você adiciona um construtor ele obrigatoriamente vai ter que seguir regra, o Java não vai adicionar um outro construtor para você;
+- Não quero mais utilizar o init porque agora pode inicializar o objeto na criação;
+- Inicializando o construtor inteiramente no objeto:
+
+```java
+	public Anime (String nome, String tipo, int episodios, String genero) {
+		System.out.println("Dentro do construtor");
+		this.nome = nome;
+		this.tipo = tipo;
+        this.episodios = episodios;
+		this.genero = genero;
+}
+
+	MAIN
+
+	Anime anime = new Anime ("Teste", "TV", 12, "Ação");
+	anime.imprime();
+```
+
+## Sobrecarga construtor
+
+- Construtor é relacionado a objeto, o this se referea ao próprio usuarion construtor para chamar outro construtor, só precisa escrever `this();`- esse objeto em memoria vai ser construido sem argumentos;
+
+```java
+	public Anime (String nome, String tipo, int episodios, String genero) {
+		this();
+		this.nome = nome;
+		this.tipo = tipo;
+        this.episodios = episodios;
+		this.genero = genero;
+}
+	public Anime (String nome, String tipo, int episodios, String genero) {
+		this(nome, tipo, episodios, genero)
+		this.estudio = estudio;
+}
+```
+
+`this`-> só pode ser utilizado dentro do consultor e o this tem que ser obrigatoriomente a primeira linha executavel do corpo do seu construtor ;
+
+60 - Orientação Objetos - Blocos de inicialização
 
 ## �� Tecnologias
 
