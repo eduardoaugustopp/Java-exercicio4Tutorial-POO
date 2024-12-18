@@ -1637,7 +1637,701 @@ public class Pessoa {
 
 `this`-> só pode ser utilizado dentro do consultor e o this tem que ser obrigatoriomente a primeira linha executavel do corpo do seu construtor ;
 
-60 - Orientação Objetos - Blocos de inicialização
+## Blocos de inicialização
+
+- A inicialização dos objetos acontece antes mesmo da execução da construtor;
+- Blocos de inicialização: geralmete coloca no começo antes dos contrutores e depois dos atributos;
+
+```java
+{
+	//bloco de inicialização de intancia porque é executado todas as vezes que esse objeto é criado
+
+}
+```
+
+```java
+public class Cliente {
+
+    /*
+    *   1 - Alocado espaço na memória para o objete que será criado
+    *   2 - Cada atributo de classe é criado e inicializado com seus valores default ou o que for passado
+    *   3 - Bloco de inicialização é executado
+    *   4 - o construtor é executado
+    *
+    * */
+
+    //private int[] parcelas = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    private int[] parcelas;//atributo decalrado
+
+    // inicio do bloco de inicialização
+    {
+        parcelas = new int[100];//100 posiçoes/tamanho, 0 a 99 indices
+        System.out.println("Dentro do blobo de inicialização!");
+        for(int i = 1 ; i <= 100; i++){
+            parcelas[i - 1] = i;//Começar com valor de i=1; i-1=indice 0; parcelas[i-1](valor armazenado)
+        }
+    }
+
+    public Cliente() {
+//O construtor não precisa fazer nada específico, pois a inicialização das parcelas já foi tratada no bloco;
+//        System.out.println("Dentro do construtor");
+//        for (int parcela : this.parcelas){
+//            System.out.print(parcela + " ");
+//        }
+    }
+
+    public int[] getParcelas() {
+        return parcelas;
+    }
+
+    public void setParcelas(int[] parcelas) {
+        this.parcelas = parcelas;
+    }
+}
+
+```
+
+```java
+public class ClienteTeste {
+    public static void main(String[] args) {
+        Cliente c = new Cliente();
+        System.out.println("Exibindo quantidade de parcelas possíveis");
+        for(int parcela : c.getParcelas()){
+            System.out.print(parcela + " ");
+        }
+    }
+}
+
+```
+
+## **`EXEMPLO CHATGPT`**
+
+- Bloco de inicialização de instância:
+
+```java
+class Exemplo {
+    private int valor;
+
+    // Bloco de inicialização de instância
+    {
+        valor = 10;
+        System.out.println("Bloco de inicialização de instância executado!");
+    }
+
+    public Exemplo() {
+        System.out.println("Construtor executado!");
+    }
+
+    public int getValor() {
+        return valor;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Exemplo exemplo1 = new Exemplo();
+        Exemplo exemplo2 = new Exemplo();
+    }
+}
+```
+
+- Bloco de inicialização estático:
+
+```java
+class Exemplo {
+    private static int valorEstatico;
+
+    // Bloco de inicialização estático
+    static {
+        valorEstatico = 100;
+        System.out.println("Bloco de inicialização estático executado!");
+    }
+
+    public static int getValorEstatico() {
+        return valorEstatico;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Valor estático: " + Exemplo.getValorEstatico());
+        // O bloco estático já foi executado, não será executado novamente.
+        System.out.println("Valor estático novamente: " + Exemplo.getValorEstatico());
+    }
+}
+```
+
+## Quando usar?
+
+- Bloco de inicialização de instância: Para lógica comum de inicialização que deve ser aplicada antes do construtor de cada objeto.
+- Bloco de inicialização estático: Para inicializar variáveis ou recursos que pertencem à classe e só precisam ser inicializados uma vez.
+
+## Modificador static
+
+`velocidadeLimite:`
+
+- É um atributo static, ou seja, pertence à classe e não a instâncias individuais;
+- Todos os objetos da classe Carro compartilham esse atributo;
+
+```java
+public class Carro {
+    // velocidade limite deve ser de 240 km/h
+
+    private String nome;
+    private double velocidadeMaxima;
+    public static double velocidadeLimite = 240;
+
+    public Carro(String nome, double velocidadeMaxima) {
+        this.nome = nome;//Inicializa os atributos nome e velocidadeMaxima para cada objeto criado.
+        this.velocidadeMaxima = velocidadeMaxima;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getVelocidadeMaxima() {
+        return velocidadeMaxima;
+    }
+
+    public void setVelocidadeMaxima(double velocidadeMaxima) {
+        this.velocidadeMaxima = velocidadeMaxima;
+    }
+
+    // Não pode em static
+    /*public double getVelocidadeLimite() {
+        return velocidadeLimite;
+    }
+
+    public void setVelocidadeLimite(double velocidadeLimite) {
+        this.velocidadeLimite = velocidadeLimite;
+    }*/
+
+    public void imprime(){
+        System.out.println("--------------------------------------------");
+        System.out.println("Nome " + this.nome);
+        System.out.println("Velocidade Máxima " + this.velocidadeMaxima);
+        //System.out.println("Velocidade Limite " + this.velocidadeLimite);
+        System.out.println("Velocidade Limite " + Carro.velocidadeLimite);
+		//O atributo velocidadeLimite pode ser acessado diretamente sem usar this, já que é um atributo static
+    }
+}
+
+```
+
+```java
+public class CarroTest {
+    public static void main(String[] args) {
+        Carro c1 = new Carro("BMW", 210);
+        Carro c2 = new Carro("Audi", 220);
+        Carro c3 = new Carro("Mercedes", 230);
+
+        c1.imprime();
+        c2.imprime();
+        c3.imprime();
+
+        System.out.println("##################################################");
+
+        //c1.setVelocidadeLimite(300);
+        Carro.velocidadeLimite = 200;
+
+        c1.imprime();
+        c2.imprime();
+        c3.imprime();
+
+    }
+}
+
+```
+
+## Métodos estáticos
+
+- Posso chamar pelo nome da classe e alterar sem precisar criar um objeto;
+
+````java
+package br.com.abc.javacore.modificadorestatico;
+
+public class Carro {
+    // velocidade limite dece ser de 240 km/h
+
+    private String nome;
+    private double velocidadeMaxima;
+
+    private static double velocidadeLimite = 240;
+
+    public Carro(String nome, double velocidadeMaxima) {
+        this.nome = nome;
+        this.velocidadeMaxima = velocidadeMaxima;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getVelocidadeMaxima() {
+        return velocidadeMaxima;
+    }
+
+    public void setVelocidadeMaxima(double velocidadeMaxima) {
+        this.velocidadeMaxima = velocidadeMaxima;
+    }
+
+    /* Métodos estáticos */
+    public static double getVelocidadeLimite() {
+        return velocidadeLimite;
+    }
+    /* Métodos estáticos */
+    public static void setVelocidadeLimite(double velocidadeLimite) {
+		//se chamar o set sem ter um objeto não vai referenciar nada por isso não usa this
+        Carro.velocidadeLimite = velocidadeLimite;
+		//this se refere ao objeto por isso não coloco aqui
+    }
+
+    public void imprime(){
+        System.out.println("--------------------------------------------");
+        System.out.println("Nome " + this.nome);
+        System.out.println("Velocidade Máxima " + this.velocidadeMaxima);
+        //System.out.println("Velocidade Limite " + this.velocidadeLimite);
+        System.out.println("Velocidade Limite " + velocidadeLimite);
+    }
+}
+
+```
+
+```java
+package br.com.abc.javacore.modificadorestatico;
+
+public class CarroTest {
+    public static void main(String[] args) {
+        //Carro.velocidadeLimite = 200;
+        Carro.setVelocidadeLimite(300);
+
+        Carro c1 = new Carro("BMW", 210);
+        Carro c2 = new Carro("Audi", 220);
+        Carro c3 = new Carro("Mercedes", 230);
+
+        c1.imprime();
+        c2.imprime();
+        c3.imprime();
+
+        System.out.println("##################################################");
+
+        //c1.setVelocidadeLimite(300);
+
+        c1.imprime();
+        c2.imprime();
+        c3.imprime();
+
+
+    }
+}
+````
+
+---
+
+## Bloco de inicialização (estático)
+
+```java
+public class Cliente {
+
+    /*
+     *   0 - Bloco de inicialização é executado quando a JVM carrega  a classe(static executa apenas uma vez e em primeiro)
+     *   1 - Alocado espaço na memória para o objeto que será criado
+     *   2 - Cada atributo de classe é criado e inicializado com seus valores default ou valores explicitados
+     *   3 - Bloco de inicialização é executado
+     *   4 - o construtor é executado
+     */
+
+    //private int[] parcelas = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    private static int[] parcelas;
+
+    // inicio do bloco de inicialização
+    {
+        parcelas = new int[100];
+        System.out.println("Dentro do blobo de inicialização NÃO ESTÁTICO");
+        for (int i = 1; i <= 100; i++) {
+            parcelas[i - 1] = i;
+        }
+    }
+
+
+    static {
+        System.out.println("Dentro do bloco de inicialização ESTÁTICO 1");
+    }
+
+    static {
+        System.out.println("Dentro do bloco de inicialização ESTÁTICO 2");
+    }
+
+    public Cliente() {
+//        System.out.println("Dentro do construtor");
+//        for (int parcela : this.parcelas){
+//            System.out.print(parcela + " ");
+//        }
+    }
+
+    public static int[] getParcelas() {
+        return parcelas;
+    }
+
+    /*
+    public static void setParcelas(int[] parcelas) {
+        Cliente.parcelas = parcelas;
+    }
+    */
+}
+
+```
+
+```java
+public class ClienteTeste {
+    public static void main(String[] args) {
+        Cliente c = new Cliente();
+        Cliente c1 = new Cliente();
+        Cliente c2 = new Cliente();
+        System.out.println("Exibindo quantidade de parcelas possíveis");
+        /*for(int parcela : c.getParcelas()){
+            System.out.print(parcela + " ");
+        }*/
+    }
+}
+
+```
+
+```
+Dentro do blobo de inicialização ESTÁTICO 1
+Dentro do blobo de inicialização ESTÁTICO 2
+Dentro do blobo de inicialização NÃO ESTÁTICO
+Dentro do blobo de inicialização NÃO ESTÁTICO
+Dentro do blobo de inicialização NÃO ESTÁTICO
+Exibindo quantidade de parcelas possíveis
+
+```
+
+## Associação pt 01 - Arrays com Objetos
+
+- Temos 3 jogadores e queros guardar em um array, digamos que queremos utilizar todos os jogadores em um lugar só;
+- Criamos 3 objetos em memória e colocamos dentro de um array e estamos imprimindo;
+
+```java
+public class Test02_associacaoJogadorTime {
+    public static void main(String[] args) {
+        Jogador jogador1 = new Jogador("Neymar");
+        Jogador jogador2 = new Jogador("Messi");
+		Jogador jogador3 = new Jogador("Romario");
+        Jogador[] jogadores = {jogador1, jogador2, jogador3};
+
+		for(Jogador jogador : jogadores) {
+			jogador.imprime();
+		}
+```
+
+> <img alt="" src="./img/associacao.png" width="80%"></br>
+
+## Associação unidirecional um para muitos
+
+1. Departamento possui uma única referência a Funcionario:
+
+- Usamos o método setFuncionario para associar um funcionário ao departamento.
+
+2. Sem listas:
+
+- Como é apenas um exemplo simples, apenas um único funcionário é associado ao departamento.
+
+3. Exibição das informações:
+
+- O método exibirInformacoes mostra o nome do departamento e o nome do funcionário associado.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+public class Departamento {
+    private String nome;
+    private Funcionario funcionario;
+
+    public Departamento(String nome) {
+        this.nome = nome;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public void exibirInformacoes() {
+        System.out.println("Departamento: " + nome);
+        if (funcionario != null) {
+            System.out.println("Funcionário: " + funcionario.getNome());
+        } else {
+            System.out.println("Nenhum funcionário associado.");
+        }
+    }
+}
+```
+
+```java
+public class Funcionario {
+    private String nome;
+
+    public Funcionario(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Criando um departamento
+        Departamento departamento = new Departamento("Recursos Humanos");
+
+        // Criando um funcionário
+        Funcionario funcionario = new Funcionario("Maria");
+
+        // Associando o funcionário ao departamento
+        departamento.setFuncionario(funcionario);
+
+        // Exibindo as informações
+        departamento.exibirInformacoes();
+    }
+}
+```
+
+```
+Departamento: Recursos Humanos
+Funcionário: Maria
+```
+
+## Associação unidirecional muitos para um
+
+- A relação "muitos para um" é modelada ao criar múltiplos objetos Funcionario, cada um com uma referência ao mesmo objeto Departamento;
+
+```java
+public class Departamento {
+    private String nome;
+
+    public Departamento(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+}
+```
+
+```java
+public class Funcionario {
+    private String nome;
+    private Departamento departamento;
+
+    public Funcionario(String nome, Departamento departamento) {
+        this.nome = nome;
+        this.departamento = departamento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void exibirInformacoes() {
+        System.out.println("Funcionário: " + nome);
+        if (departamento != null) {
+            System.out.println("Departamento: " + departamento.getNome());
+        } else {
+            System.out.println("Sem departamento associado.");
+        }
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Criando um departamento
+        Departamento departamento = new Departamento("Recursos Humanos");
+
+        // Criando funcionários e associando ao departamento
+        Funcionario funcionario1 = new Funcionario("Maria", departamento);
+        Funcionario funcionario2 = new Funcionario("João", departamento);
+
+        // Exibindo as informações dos funcionários
+        funcionario1.exibirInformacoes();
+        funcionario2.exibirInformacoes();
+    }
+}
+```
+
+```
+Funcionário: Maria
+Departamento: Recursos Humanos
+Funcionário: João
+Departamento: Recursos Humanos
+```
+
+## Associação bidirecional
+
+Uma associação bidirecional significa que duas classes possuem referências entre si. Por exemplo, em um relacionamento entre Departamento e Funcionario:
+
+- Um Departamento conhece seus Funcionarios.
+- Cada Funcionario sabe a qual Departamento pertence.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Departamento {
+    private String nome;
+    private List<Funcionario> funcionarios;
+
+    public Departamento(String nome) {
+        this.nome = nome;
+        this.funcionarios = new ArrayList<>();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void adicionarFuncionario(Funcionario funcionario) {
+        funcionarios.add(funcionario);
+        funcionario.setDepartamento(this); // Estabelece a relação bidirecional
+    }
+
+    public void listarFuncionarios() {
+        System.out.println("Funcionários do Departamento " + nome + ":");
+        for (Funcionario funcionario : funcionarios) {
+            System.out.println("- " + funcionario.getNome());
+        }
+    }
+}
+```
+
+```java
+public class Funcionario {
+    private String nome;
+    private Departamento departamento;
+
+    public Funcionario(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
+    }
+
+    public void exibirInformacoes() {
+        System.out.println("Funcionário: " + nome);
+        if (departamento != null) {
+            System.out.println("Departamento: " + departamento.getNome());
+        } else {
+            System.out.println("Sem departamento associado.");
+        }
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Criando um departamento
+        Departamento departamento = new Departamento("Recursos Humanos");
+
+        // Criando funcionários
+        Funcionario funcionario1 = new Funcionario("Maria");
+        Funcionario funcionario2 = new Funcionario("João");
+
+        // Associando funcionários ao departamento
+        departamento.adicionarFuncionario(funcionario1);
+        departamento.adicionarFuncionario(funcionario2);
+
+        // Exibindo informações do departamento
+        departamento.listarFuncionarios();
+
+        // Exibindo informações de cada funcionário
+        funcionario1.exibirInformacoes();
+        funcionario2.exibirInformacoes();
+    }
+}
+```
+
+```
+Funcionários do Departamento Recursos Humanos:
+- Maria
+- João
+Funcionário: Maria
+Departamento: Recursos Humanos
+Funcionário: João
+Departamento: Recursos Humanos
+```
+
+> <img alt="" src="./img/bidirecional.png" width="80%"></br>
+
+## Leitura de dados pelo console
+
+- `next` -> só pega a primeira palavra se quiser ler a linha inteira `netLine`;
+
+```java
+import java.util.Scanner;
+
+public class ConsoleInputExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Lendo com next (apenas uma palavra)
+        System.out.println("Digite seu primeiro nome:");
+        String firstName = scanner.next();
+        System.out.println("Você digitou (com next): " + firstName);
+
+        // Limpando o buffer do scanner
+        scanner.nextLine();
+
+        // Lendo com nextLine (linha inteira)
+        System.out.println("Digite seu nome completo:");
+        String fullName = scanner.nextLine();
+        System.out.println("Você digitou (com nextLine): " + fullName);
+
+        scanner.close();
+    }
+}
+```
+
+```
+Digite seu primeiro nome:
+Você digitou (com next): Eduardo
+
+Digite seu nome completo:
+Você digitou (com nextLine): Eduardo Augusto Pereira
+```
+
+71 - Orientação Objetos - Herança pt 01
 
 ## �� Tecnologias
 
