@@ -2331,7 +2331,765 @@ Digite seu nome completo:
 Você digitou (com nextLine): Eduardo Augusto Pereira
 ```
 
-71 - Orientação Objetos - Herança pt 01
+## Herança
+
+- `herança` -> sempre esta falando sobre a extensão das funcionalidades de alguma classe (pega todos atributos e classes);
+- Utiliza herança quando você quer estender a funcionalidade de uma classe e manter um relacionamento entre elas, esta acoplando fortemente o código;
+
+```java
+public class Pessoa {
+    private String nome;
+    private String cpf;
+    private Endereco endereco;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public void imprime(){
+        System.out.println("Nome: " + this.nome);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Rua : " + this.endereco.getRua());
+    }
+}
+
+```
+
+```java
+public class Funcionario extends Pessoa{
+    private double salario;
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+}
+
+```
+
+```java
+public class Endereco {
+    private String rua;
+    private String bairro;
+
+    public String getRua() {
+        return rua;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+}
+
+```
+
+```java
+public class HerancaTest {
+    public static void main(String[] args) {
+        Pessoa p = new Pessoa();
+        Endereco end = new Endereco();
+        p.setNome("Jose");
+        p.setCpf("789");
+        end.setRua("Rua Tal");
+        end.setBairro("Marco");
+        p.setEndereco(end);
+        p.imprime();
+
+        System.out.println("------------------");
+
+        Funcionario f = new Funcionario();
+        f.setNome("Jose Funcionario");
+        f.setCpf("916");
+        f.setSalario(3000.00);
+        f.setEndereco(end);
+        f.imprime();
+    }
+}
+
+```
+
+```
+Nome: Jose
+CPF: 789
+Rua : Rua Tal
+------------------
+Nome: Jose Funcionario
+CPF: 916
+Rua : Rua Tal
+
+```
+
+## Herança pt 02 - Super
+
+- Temos 2 objetos e cada um representa um objeto na memória
+- Classe cria origem ao objeto e o objeto é responsável por executar e guardar os dados;
+- `Sobrescrever` - escreve um método com a mesma assinatura que a classe pai;
+- `super` - está se referindo ao objeto e é o objeto mais genérico, objeto superclasse desse funcionário nesse caso pessoa;
+- Quando chama `super.imprime` ele vai chamar `this.nome..cpf` é do objeto funcionario e não do objeto pessoa;
+
+```java
+public class Funcionario extends Pessoa{
+    private double salario;
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    @Override
+    public void imprime() {
+        super.imprime();
+        System.out.println("Salario: "+ this.salario);
+    }
+}
+
+```
+
+> <img alt="" src="./img/super.png" width="80%"></br>
+
+## Herança pt 03 - protected
+
+`protected` - modificador de acesso que qualquer subclasse em qualquer pacote vai ter acesso direto aos atributos, como se tivesse os atributos na sua própria classe porem todas as classes que estão no mesmo pacote tambem vão ter acesso;
+
+```java
+public class Pessoa {
+    protected String nome;
+    protected String cpf;
+    protected Endereco endereco;
+
+```
+
+```java
+public class Funcionario extends Pessoa{
+//(...)
+ @Override
+    public void imprime() {
+        super.imprime();
+        System.out.println("Salario: "+ this.salario);
+        imprimeReciboPagamento();
+    }
+
+    public void imprimeReciboPagamento(){
+        System.out.println("Eu " + super.getNome() + " Recebi "+ this.salario);
+    }
+//(...)
+}
+```
+
+```
+Nome: Jose
+CPF: 789
+Rua : Rua Tal
+------------------
+Nome: Jose Funcionario
+CPF: 916
+Rua : Rua Tal
+Salario: 3000.0
+Eu Jose Funcionario Recebi 3000.0
+```
+
+## Herança pt 04 - Construtores
+
+**`regra`** -> se você tem um construtor na classe mãe na superclasse e não exite nenhum outro construtor na subclasse que automaticamente pode chamar, você precisa ciar um construtor que vai atender os requisitos para criar os objetos da superclasse;
+
+**`Todas as classes no java são filhas de uma classe chamada Object (pacote java.lang) e todas as classes são um objeto de alguma forma; no exemplo a classe Object é avô da classe funcionario`**
+
+```java
+//(...)
+public class Pessoa {
+    protected String nome;
+    protected String cpf;
+    protected Endereco endereco;
+
+    public Pessoa(String nome) {//Criei um construtor
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Pessoa(String nome, String cpf) {
+        this(nome);//Construtor sobrecarragado, primeira linha valida
+        this.cpf = cpf;// e depois valida essa
+    }
+//(...)
+}
+```
+
+```java
+//(...)
+public class Funcionario extends Pessoa{
+    private double salario;
+
+    public Funcionario(String nome) {
+        super(nome); //quando criar um funcionario é obrigatoriamente precisa passar um nome
+    }
+//(...)
+}
+```
+
+## Herança pt 05 - Sequência de inicialização
+
+- Espaço em memória é alocado para o objeto sendo contruído;
+- Cada um dos atributos do objeto é criado e inicializando com os valores default;
+- o construtor da superclasse é chamado;
+- A inicialização dos atributos via declaração e o codigo do bloco de inicialização de superclasse são executados na ordem qm que aparecem;
+- O código do construtor da super classe é chamado;
+- Passo 4 para a subclasse é executado;
+- O código do construtor da classe é executado.
+
+1. - A ordem dos blocos de inicialização e construtores é sempre seguida rigorosamente, garantindo que a hierarquia de classes seja inicializada de forma consistente.
+2. - Blocos estáticos só são executados na primeira vez que a classe é carregada pela JVM.
+3. - Blocos de instância e construtores são executados sempre que um novo objeto é criado.
+
+```java
+public class Pessoa {
+    protected String nome;
+    protected String cpf;
+    protected Endereco endereco;
+
+    public Pessoa(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Pessoa(String nome, String cpf) {
+        this(nome);
+        this.cpf = cpf;
+    }
+
+    static{
+        System.out.println("BLoco de inicilização estático - PESSOA");
+    }
+    {
+        System.out.println("BLoco de inicialização - 1 - pessoa");
+    }
+    {
+        System.out.println("BLoco de inicialização - 2 - pessoa");
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public void imprime(){
+        System.out.println("Nome: " + this.nome);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Rua : " + this.endereco.getRua());
+    }
+}
+
+```
+
+```java
+public class Funcionario extends Pessoa{
+    private double salario;
+
+    public Funcionario(String nome) {
+        super(nome); // primeira linha sempre!
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+    static{
+        System.out.println("BLoco de inicilização estático - FUNCIONARIO");
+    }
+    {
+        System.out.println("BLoco de inicialização - 1 - funcionario");
+    }
+    {
+        System.out.println("BLoco de inicialização - 2 - funcionario");
+    }
+
+    @Override
+    public void imprime() {
+        super.imprime();
+        System.out.println("Salario: "+ this.salario);
+        imprimeReciboPagamento();
+    }
+
+    public void imprimeReciboPagamento(){
+        System.out.println("Eu " + super.getNome() + " Recebi "+ this.salario);
+    }
+}
+
+```
+
+```java
+public class HerancaTest {
+    public static void main(String[] args) {
+        //Pessoa p = new Pessoa("Jose");
+        Endereco end = new Endereco();
+        //p.setNome("Jose");
+        //p.setCpf("789");
+        //end.setRua("Rua Tal");
+        end.setBairro("Marco");
+        //p.setEndereco(end);
+        //p.imprime();
+
+        System.out.println("------------------");
+
+        Funcionario f = new Funcionario("Jose Funcionario");
+        //f.setNome("Jose Funcionario");
+        f.setCpf("916");
+        f.setSalario(3000.00);
+        f.setEndereco(end);
+        //f.imprime();
+    }
+}
+
+```
+
+```
+BLoco de inicilização estático - PESSOA
+BLoco de inicilização estático - FUNCIONARIO
+BLoco de inicialização - 1 - pessoa
+BLoco de inicialização - 2 - pessoa
+BLoco de inicialização - 1 - funcionario
+BLoco de inicialização - 2 - funcionario
+
+```
+
+## Sobrescrita do método toString
+
+`toString` -> é um método da classe `Object` ele pega o `getClass().getName()` ou seja ele vai trazer o pacote da onde a classe ta mais o nome ai `@` mais um `hascode`, toda vez que imprimimos isso que esta sendo retornado para gente; esse método pode ser sobrescrito em nossas classes por causa da regra da herança;
+
+`@override` -> coloca para ter certeza que estamos sobrescrevendo, porque se colocamos um nome diferente esta criando um novo metodo e não sobrescrevendo;
+
+**`regras`**
+
+- o nome precisa ser exatamente o mesmo, a quantidade de parametros precisar exatamente o mesmo independente se tem ou não; o tipo de retorno tem que ser exatamente a classe ou alguma subclasse, isso se chama covariância de retorno e o modificador de acesso nunca pode ser mais restritivo;
+
+```java
+public class Pessoa {
+    private String nome;
+    private int idade;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "nome='" + nome + '\'' +
+                ", idade=" + idade +
+                '}';
+    }
+}
+
+```
+
+```java
+public class PessoaTest {
+    public static void main(String[] args) {
+        Pessoa p = new Pessoa();
+        p.setNome("Jose Malcher jr");
+        p.setIdade(34);
+        System.out.println(p);
+        System.out.println(p.toString());
+    }
+}
+
+```
+
+```
+Pessoa{nome='Jose Malcher jr', idade=34}
+Pessoa{nome='Jose Malcher jr', idade=34}
+```
+
+## Modificador final pt 01 - Tipo primitivo
+
+- Existem certos tipos de atributos que você não quer que sejam modificados esses atributos são o que chamamos de `constantes` que em java é definida pela palavra `final` ou seja uma vez criados eles vão permanecer daquele jeito;
+- `convenção java sobre constantes` -> tudo em `uppercase` e separados quando tiver mais de uma palavras po `_`;
+
+```java
+public class Carro {
+    private String nome;
+    public static final double VELOCIDADE_LIMITE = 250;
+}
+```
+
+## Modificador final pt 02 - Tipo referência
+
+- Você esta falando que a referencia que essa variavel `COMPRADOR` tem para esse objeto `new Comprador` nunca podera ser alterada;
+- Variaveis do tipo referencia quando são finais o que você não pode alterar é a referencia para o objeto;
+- `QUANDO É UTIL` -> existem casos na programação aonde voceê não quer ficar criando objeto então por `exemplo`: digamos que você tem uma classe que vai lidar com banco de dados e todas as vezes que você esta abrindo uma conexão com banco de dados precisa fazer uma logica mas a logica é a mesma, se tiver mil pessoas abrindo uma conexão com seu servidor para conectar com seu banco de dados, voce nao quer criar mil objetos, na verdade tem quer ter 1 objeto que vai gerenciar as conexoes entao nesse caso a gente precisa de apenas uma instancia;
+  `Singleton pattern` -> é um padrão de design onde você tem apenas uma instância e no java para atingir isso é atraves do modificador final;
+
+```java
+public class Carro {
+    private String nome;
+    public static final double VELOCIDADE_LIMITE = 250;
+    public final Comprador COMPRADOR = new Comprador();
+}
+```
+
+**`EXEMPLO CHAGPT FINAL`**
+
+```java
+class Pessoa {
+    private String nome;
+
+    public Pessoa(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+}
+
+public class ExemploComFinal {
+    public static void main(String[] args) {
+        final Pessoa pessoa = new Pessoa("João");
+
+        // A referência "pessoa" aponta para o primeiro objeto
+        System.out.println("Nome inicial: " + pessoa.getNome());
+
+        // Tentando alterar a referência (não permitido)
+        // pessoa = new Pessoa("Maria"); // Isso causará erro de compilação
+
+        // Podemos modificar o estado do objeto, mas não a referência
+        System.out.println("Nome permanece: " + pessoa.getNome());
+    }
+}
+```
+
+```
+Nome inicial: João
+Nome permanece: João
+```
+
+## Modificador final pt 03 - Classes e métodos
+
+- Esta lidando diretamente com herança;
+
+1. - final em Classes: Impede que a classe seja estendida ou seja não pode ser uma superclasse.
+2. - final em Métodos: Impede que o método seja sobrescrito em subclasses.
+
+`String` -> é uma classe `final` no java, os arquitetos do java colocaram String como final porque quando você permite a herança e permite a sobrescrita ta falando que voce esta autorizado ou autorizando outras classes a trocarem o comportamento da classe;
+
+**se coloca final em uma classe não tem necessidade de colocar no método**
+
+**`EXEMPLO CHAGPT FINAL`**
+
+```java
+final class Animal {
+    public void som() {
+        System.out.println("O animal faz um som");
+    }
+}
+
+// Isso dará erro de compilação
+// class Cachorro extends Animal { }
+```
+
+Uso:
+
+- Classes finais são úteis quando você quer garantir que ninguém possa sobrescrever ou modificar o comportamento dessa classe.
+
+```java
+class Animal {
+    public final void som() {
+        System.out.println("O animal faz um som");
+    }
+}
+
+class Cachorro extends Animal {
+    // Isso dará erro de compilação
+    // public void som() {
+    //     System.out.println("O cachorro late");
+    // }
+}
+```
+
+Uso:
+
+- Métodos finais são úteis quando você quer garantir que o comportamento original do método não seja alterado por subclasses.
+
+## Enumeração pt 01 - Introdução
+
+- É um tipo especial de classes, aonde todos os atributos que vamos criar é constante;
+- Quando precisar criar um `atributo` que representa um determinado `tipo`;
+
+```java
+public class Cliente {
+    private String nome;
+    private TipoCliente tipo;
+
+    public Cliente(String nome, TipoCliente tipo) {
+        this.nome = nome;
+        this.tipo = tipo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public TipoCliente getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoCliente tipo) {
+        this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nome='" + nome + '\'' +
+                ", tipo=" + tipo +
+                '}';
+    }
+}
+
+```
+
+```java
+public enum TipoCliente {
+    PESSOA_FISICA , PESSOA_JURIDICA;
+}
+
+```
+
+```java
+public class ClienteTest {
+    public static void main(String[] args) {
+        Cliente cliente = new Cliente("Jose", TipoCliente.PESSOA_FISICA);
+        System.out.println(cliente);
+    }
+}
+
+```
+
+```
+Cliente{nome='Jose', tipo=PESSOA_FISICA}
+```
+
+## Enumeração pt 02 - Construtores e atributos
+
+`enum` -> pode ficar dentro de uma classe tambem, é mais organizado separar em outro arquivo;
+
+`sem modificador de acesso` -> chama modificador de acesso de pacote, significa que qualquer classe dentro do mesmo pacote podera acessar diretamente esse atributo;
+
+```java
+public class Cliente {
+    private String nome;
+    private TipoCliente tipo;
+    private TipoPagamento tipoPagamento;
+
+    enum TipoPagamento{
+        AVISTA, APRAZO;
+    }
+
+    public Cliente(String nome, TipoCliente tipo, TipoPagamento tipoPagamento) {
+        this.nome = nome;
+        this.tipo = tipo;
+        this.tipoPagamento = tipoPagamento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public TipoCliente getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoCliente tipo) {
+        this.tipo = tipo;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nome='" + nome + '\'' +
+                ", tipo=" + tipo +
+                ", tipo Valor=" + tipo.getTipo() +
+                ", tipo Nome=" + tipo.getNome() +
+                ", tipoPagamento=" + tipoPagamento +
+                '}';
+    }
+}
+
+```
+
+```java
+public enum TipoCliente {
+    PESSOA_FISICA(1, "Pessoa Física") , PESSOA_JURIDICA(2, "Pessoa Juridica"); //sempre na primeira linha
+
+    private int tipo;
+    private String nome;
+
+    TipoCliente(int tipo, String nome) {
+        this.tipo = tipo;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+}
+
+```
+
+```java
+public class ClienteTest {
+    public static void main(String[] args) {
+        Cliente cliente = new Cliente("Jose", TipoCliente.PESSOA_FISICA, Cliente.TipoPagamento.AVISTA);
+        Cliente cliente2 = new Cliente("Jose 2", TipoCliente.PESSOA_JURIDICA, Cliente.TipoPagamento.APRAZO);
+        System.out.println(cliente);
+        System.out.println(cliente2);
+    }
+}
+
+```
+
+```
+Cliente{nome='Jose', tipo=PESSOA_FISICA, tipo Valor=1, tipo Nome=Pessoa Física, tipoPagamento=AVISTA}
+Cliente{nome='Jose 2', tipo=PESSOA_JURIDICA, tipo Valor=2, tipo Nome=Pessoa Juridica, tipoPagamento=APRAZO}
+```
+
+**`EXEMPLO CHATGPT ENUM`**
+
+```java
+enum DiaDaSemana {
+    SEGUNDA(1, "Início da semana"),
+    TERCA(2, "Dia comum"),
+    QUARTA(3, "Dia comum"),
+    QUINTA(4, "Dia comum"),
+    SEXTA(5, "Quase fim de semana"),
+    SABADO(6, "Fim de semana!"),
+    DOMINGO(7, "Fim de semana!");
+
+    private final int numero; // Atributo para armazenar o número do dia
+    private final String descricao; // Atributo para armazenar a descrição
+
+    // Construtor do enum
+    DiaDaSemana(int numero, String descricao) {
+        this.numero = numero;
+        this.descricao = descricao;
+    }
+
+    // Métodos para acessar os atributos
+    public int getNumero() {
+        return numero;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+}
+
+public class ExemploEnum {
+    public static void main(String[] args) {
+        // Acessando as constantes e seus atributos
+        for (DiaDaSemana dia : DiaDaSemana.values()) {
+            System.out.println("Dia: " + dia +
+                               ", Número: " + dia.getNumero() +
+                               ", Descrição: " + dia.getDescricao());
+        }
+    }
+}
+```
+
+```
+Dia: SEGUNDA, Número: 1, Descrição: Início da semana
+Dia: TERCA, Número: 2, Descrição: Dia comum
+Dia: QUARTA, Número: 3, Descrição: Dia comum
+Dia: QUINTA, Número: 4, Descrição: Dia comum
+Dia: SEXTA, Número: 5, Descrição: Quase fim de semana
+Dia: SABADO, Número: 6, Descrição: Fim de semana!
+Dia: DOMINGO, Número: 7, Descrição: Fim de semana!
+```
+
+82 - Orientação Objetos - Enumeração pt 03 - Sobrescrita de métodos
 
 ## �� Tecnologias
 
