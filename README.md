@@ -1180,6 +1180,57 @@ public class EstudanteTest {
 
 **`Coesão`** -> é algo que está relacionado ao propósito das suas classes, quando fala que o código é altamente coeso, estamos falando que as nossas classes elas não estão misturando os propósitos delas existirem;
 
+## static
+
+1. - `Atributo static` é um atributo compartilhado por todas as instâncias de uma classe. Se um atributo é static, ele é único para toda a classe e não é vinculado a uma instância específica da classe.
+
+2. - `Método static` é um método que pode ser chamado sem a necessidade de criar uma instância da classe.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+class ContaBancaria {
+    static int totalContas = 0; // Atributo static
+
+    String nomeTitular;
+    double saldo;
+
+    ContaBancaria(String nomeTitular, double saldo) {
+        this.nomeTitular = nomeTitular;
+        this.saldo = saldo;
+        totalContas++; // Incrementa o total de contas
+    }
+
+    static int getTotalContas() {
+        return totalContas;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ContaBancaria conta1 = new ContaBancaria("João", 1000);
+        ContaBancaria conta2 = new ContaBancaria("Maria", 1500);
+
+        System.out.println("Total de contas: " + ContaBancaria.getTotalContas());
+    }
+}
+```
+
+```java
+class Calculadora {
+    static int somar(int a, int b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        int resultado = Calculadora.somar(5, 10);
+        System.out.println("Resultado da soma: " + resultado);
+    }
+}
+```
+
 ## Métodos com parâmetros
 
 - Parametro - > entre parentese passa o tipo e o nome do identificador;
@@ -2452,11 +2503,12 @@ Rua : Rua Tal
 
 ## Herança pt 02 - Super
 
-- Temos 2 objetos e cada um representa um objeto na memória
+- Temos 2 objetos e cada um representa um objeto na memória;
 - Classe cria origem ao objeto e o objeto é responsável por executar e guardar os dados;
 - `Sobrescrever` - escreve um método com a mesma assinatura que a classe pai;
 - `super` - está se referindo ao objeto e é o objeto mais genérico, objeto superclasse desse funcionário nesse caso pessoa;
 - Quando chama `super.imprime` ele vai chamar `this.nome..cpf` é do objeto funcionario e não do objeto pessoa;
+- Se eu tiver na propria classe uso o `this` em subclasses uso o `super`;
 
 ```java
 public class Funcionario extends Pessoa{
@@ -3089,7 +3141,1150 @@ Dia: SABADO, Número: 6, Descrição: Fim de semana!
 Dia: DOMINGO, Número: 7, Descrição: Fim de semana!
 ```
 
-82 - Orientação Objetos - Enumeração pt 03 - Sobrescrita de métodos
+## Enumeração pt 03 - Sobrescrita de métodos
+
+```java
+public enum TipoCliente {
+    PESSOA_FISICA(1, "Pessoa Física") , PESSOA_JURIDICA(2, "Pessoa Juridica"){
+        public String getId(){
+            return  "B"; //Sobrescreve o método para PESSOA_JURIDICA
+        }
+    };
+
+    private int tipo;
+    private String nome;
+
+    TipoCliente(int tipo, String nome) {
+        this.tipo = tipo;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    classes
+
+    public String getId(){
+        return  "A";// Valor padrão para os outros tipos, que no caso vai ser para PESSOA_FISICA
+    }
+
+}
+
+```
+
+```java
+public class ClienteTest {
+    public static void main(String[] args) {
+        Cliente cliente = new Cliente("Jose", TipoCliente.PESSOA_FISICA, Cliente.TipoPagamento.AVISTA);
+        Cliente cliente2 = new Cliente("Jose 2", TipoCliente.PESSOA_JURIDICA, Cliente.TipoPagamento.APRAZO);
+        System.out.println(cliente);
+        System.out.println(cliente2);
+        System.out.println(TipoCliente.PESSOA_FISICA.getId());
+        System.out.println(TipoCliente.PESSOA_JURIDICA.getId());
+    }
+}
+
+```
+
+```
+Cliente{nome='Jose', tipo=PESSOA_FISICA, tipo Valor=1, tipo Nome=Pessoa Física, tipoPagamento=AVISTA}
+Cliente{nome='Jose 2', tipo=PESSOA_JURIDICA, tipo Valor=2, tipo Nome=Pessoa Juridica, tipoPagamento=APRAZO}
+A
+B
+```
+
+**`EXEMPLO CHATGPT`**
+
+1. - `Enum TipoAnimal`: </br>
+     Cada constante (CACHORRO, GATO, PASSARO) implementa o método abstrato emitirSom() de forma personalizada.
+
+2. - `Método emitirSom`:</br>
+     É definido como abstrato na enum para forçar cada constante a fornecer sua própria implementação.
+
+```java
+public enum TipoAnimal {
+    CACHORRO {
+        @Override
+        public String emitirSom() {
+            return "Au Au!";
+        }
+    },
+    GATO {
+        @Override
+        public String emitirSom() {
+            return "Miau!";
+        }
+    },
+    PASSARO {
+        @Override
+        public String emitirSom() {
+            return "Piu Piu!";
+        }
+    };
+
+    // Método padrão que será sobrescrito
+    public abstract String emitirSom();
+}
+```
+
+```java
+public class TesteTipoAnimal {
+    public static void main(String[] args) {
+        // Testando cada animal
+        System.out.println("Som do cachorro: " + TipoAnimal.CACHORRO.emitirSom());
+        System.out.println("Som do gato: " + TipoAnimal.GATO.emitirSom());
+        System.out.println("Som do pássaro: " + TipoAnimal.PASSARO.emitirSom());
+    }
+}
+```
+
+## Enumeração pt 04 - Busca por atributos
+
+1. - `Enum com Atributos`: A enum Fruta possui dois atributos: nome e cor.
+2. - `Método Estático`: O método buscarPorCor percorre os valores da enum para encontrar uma fruta que corresponda à cor informada.
+3. - `Busca Simples`: Na classe principal, chamamos o método e tratamos o resultado.
+4. - `Método values()` é um método especial que todas as enumerações (enums) em Java possuem automaticamente. Ele retorna um array contendo todas as constantes definidas na enum, na ordem em que foram declaradas.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+public enum Fruta {
+    MACA("Maçã", "Vermelha"),
+    BANANA("Banana", "Amarela"),
+    UVA("Uva", "Roxa"),
+    LARANJA("Laranja", "Laranja");
+
+    private final String nome;
+    private final String cor;
+
+    // Construtor
+    Fruta(String nome, String cor) {
+        this.nome = nome;
+        this.cor = cor;
+    }
+
+    // Getters
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    // Método estático para buscar por cor
+    public static Fruta buscarPorCor(String cor) {
+        for (Fruta fruta : Fruta.values()) {
+            if (fruta.getCor().equalsIgnoreCase(cor)) {
+                return fruta;
+            }
+        }
+        return null; // Ou você pode lançar uma exceção
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Buscar uma fruta por sua cor
+        String corProcurada = "Amarela";
+        Fruta fruta = Fruta.buscarPorCor(corProcurada);
+
+        if (fruta != null) {
+            System.out.println("Fruta encontrada: " + fruta.getNome());
+        } else {
+            System.out.println("Nenhuma fruta encontrada com a cor: " + corProcurada);
+        }
+    }
+}
+```
+
+## Classes abstratas pt 01
+
+**`classes abstratas`** -> foi criado para resolver um problema de designer de desenho de código; imagina o seguinte você tem sua empresa, ela tem funcionarios e dentro da empresa precisa ter cargos, o funcionario em si é algo abstrato é como se fosse um template, funcionario em si não existe, o que existe é uma das implementações do funcionario que é o que seria os cargos das pessoas;
+
+- Quando você coloca uma classe como `abstrata` você esta falando essa classe agora é como se fosse um template ou seja você não pode mais criar algo concreto; classe abstrata não pode ser instanciada, nao tem objeto, só pode ter objeto as que estendem a funcionalidade de funcionario;
+
+- Na classe funcionarios tem construtor porque estamos trabalhando com herança, herança trabalha da mesma forma com classes abstratas e concretas no sentido que você precisa de um nome, salário para criar um funcionário, você vai precisar de nome, salário para criar um gerente;
+
+- Uma classe abstrata ela foi criada para ser estendida, vai ser uma superclasse e como ela foi criada para ser superclasse você não pode misturar `final` com `abstract` porque final diz que não pode ser estendida;
+
+```java
+public abstract class Funcionario {
+    protected String nome;
+    protected String clt;
+    protected double salario;
+
+    public Funcionario() {
+    }
+
+    public Funcionario(String nome, String clt, double salario) {
+        this.nome = nome;
+        this.clt = clt;
+        this.salario = salario;
+    }
+
+    public abstract void calculaSalario();
+    /*{
+        this.salario = salario + (salario * 0.1);
+    }*/
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getClt() {
+        return clt;
+    }
+
+    public void setClt(String clt) {
+        this.clt = clt;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    @Override
+    public String toString() {
+        return "Funcionario{" +
+                "nome='" + nome + '\'' +
+                ", clt='" + clt + '\'' +
+                ", salario=" + salario +
+                '}';
+    }
+}
+
+```
+
+```java
+public class Gerente extends Funcionario {
+    public Gerente() {
+    }
+
+    public Gerente(String nome, String clt, double salario) {
+        super(nome, clt, salario);
+    }
+
+    @Override
+    public void calculaSalario() {
+        //super.calculaSalario();
+        this.salario = salario + (salario * 0.2);
+    }
+}
+
+```
+
+```java
+public class Vendedor extends Funcionario {
+
+    private double vendas;
+
+    @Override
+    public void calculaSalario() {
+        this.salario = salario + (vendas * 0.5);
+    }
+
+    public Vendedor() {
+    }
+
+    public Vendedor(String nome, String clt, double salario, double vendas) {
+        super(nome, clt, salario);
+        this.vendas = vendas;
+    }
+
+    public double getVendas() {
+        return vendas;
+    }
+
+    public void setVendas(double vendas) {
+        this.vendas = vendas;
+    }
+}
+
+```
+
+```java
+public class FuncionarioTeste {
+    public static void main(String[] args) {
+        //Funcionario f = new Funcionario("Marcos", "2018", 2000);
+        Gerente g = new Gerente("Ana", "123-123", 2000);
+        Vendedor v = new Vendedor("Camila", "123", 2000, 5000);
+        //f.calculaSalario();
+        g.calculaSalario();
+        v.calculaSalario();
+        //System.out.println(f);
+        System.out.println(v);
+        System.out.println(g);
+    }
+}
+
+```
+
+```
+Funcionario{nome='Camila', clt='123', salario=4500.0}
+Funcionario{nome='Ana', clt='123-123', salario=2400.0}
+```
+
+## Classes abstratas pt 02 - Métodos abstratos
+
+`método abstratos` -> significa que não pode ter corpo;
+
+- Métodos abstratos só podem existir dentro de classes abstratas mas uma classe abstrata pode ter método concreto e abstrato;
+
+- `Exemplo de quando é util` - criar uma funcionalidade para deletar um funcionario, então a funcionalidade que você fizer para deletar um funcionario não depende do tipo se é gerente, vendedor, desenvolvedor.., é uma só, então nesse caso faria sentido você ter um método concreto dentro da classe funcionario e em caso especifico caso uma subclasse precisasse trocar a funcionalidade era só sobrescrever;
+
+- Um método abstrato é um método que declara apenas a assinatura (o nome, os parâmetros e o tipo de retorno) sem fornecer uma implementação. A implementação desse método é deixada para as classes que herdam a classe abstrata;
+
+1. - Animal é uma classe abstrata que possui um método abstrato emitirSom() e um método concreto mover().
+2. - Cachorro e Gato são classes concretas que herdam Animal e implementam o método abstrato emitirSom() de maneiras diferentes.
+3. - Ao instanciar objetos de Cachorro e Gato, é possível chamar tanto os métodos abstratos quanto os métodos concretos que foram herdados.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+// Classe abstrata Animal
+abstract class Animal {
+    // Método abstrato
+    abstract void emitirSom();
+
+    // Método concreto (não precisa ser abstrato)
+    void mover() {
+        System.out.println("O animal está se movendo.");
+    }
+}
+
+// Classe concreta Cachorro que herda de Animal
+class Cachorro extends Animal {
+    @Override
+    void emitirSom() {
+        System.out.println("Au! Au!");
+    }
+}
+
+// Classe concreta Gato que herda de Animal
+class Gato extends Animal {
+    @Override
+    void emitirSom() {
+        System.out.println("Meow! Meow!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal cachorro = new Cachorro();
+        Animal gato = new Gato();
+
+        cachorro.emitirSom(); // Saída: "Au! Au!"
+        cachorro.mover();     // Saída: "O animal está se movendo."
+
+        gato.emitirSom();     // Saída: "Meow! Meow!"
+        gato.mover();         // Saída: "O animal está se movendo."
+    }
+}
+```
+
+## Classes abstratas pt 03 - Métodos abstratos regras
+
+- Classe abstrata pode estender outra classe abstrata;
+
+**`EXEMPLO CHATGPT`**
+
+```java
+// Classe abstrata A
+abstract class A {
+    abstract void metodoA();
+
+    void metodoComum() {
+        System.out.println("Método comum da classe A.");
+    }
+}
+
+// Classe abstrata B que estende A
+abstract class B extends A {
+    abstract void metodoB();
+
+    @Override
+    void metodoA() {
+        System.out.println("Implementação do método A em B.");
+    }
+
+    void metodoComum() {
+        System.out.println("Método comum da classe B.");
+        super.metodoComum(); // Chama o método comum da classe A
+    }
+}
+
+// Classe concreta C que estende B
+class C extends B {
+    @Override
+    void metodoB() {
+        System.out.println("Implementação do método B em C.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        C obj = new C();
+        obj.metodoA(); // Chamando métodoA de C que chama o métodoA de B
+        obj.metodoB(); // Chamando métodoB de C
+        obj.metodoComum(); // Chamando método comum que chama tanto o de B quanto o de A
+    }
+}
+```
+
+## Orientação Objetos - Interfaces pt 01 - Introdução
+
+`interface` - Uma interface em Java é um contrato que define um conjunto de métodos (e, opcionalmente, constantes) que uma classe pode implementar. Ela serve como um esqueleto para estabelecer comportamentos que as classes devem fornecer, sem especificar como esses comportamentos serão implementados.
+
+- Na interface todos os métodos por padrão já são `public abstract`;
+
+- Quando estiver trabalhando com insterfaces utiliza `implements` depois vem no me da interface, como é um método abstrato é obrigado a prover a implementação daquele método;
+
+```java
+public class Produto implements ITributavel, ITransportavel {
+    //Interface ITributavel; Declara uma constante IMPOSTO (taxa de 20%) e o método abstrato calcularImposto(); A constante é automaticamente public static final e o método public abstract, mesmo que essas palavras-chave sejam omitidas.
+
+    //Interface ITransportavel; Define o método abstrato calculaFrete() que será implementado pelas classes que prometem calcular o frete.
+
+    //Classe Produto; Implementa as interfaces ITributavel e ITransportavel, ou seja, fornece uma implementação para os métodos calcularImposto() e calculaFrete().
+
+    private String nome;
+    private double peso;
+    private double preco;
+    private double precoFinal;
+    private double valorFrete;
+
+    @Override
+    public void calcularImposto() {
+        this.precoFinal = this.preco + (this.preco * IMPOSTO);
+    }
+
+    @Override
+    public void calculaFrete() {
+        this.valorFrete = this.preco / peso * 0.1;
+    }
+
+    public Produto(String nome, double peso, double preco) {
+        this.nome = nome;
+        this.peso = peso;
+        this.preco = preco;
+
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public double getPrecoFinal() {
+        return precoFinal;
+    }
+
+    public double getValorFrete() {
+        return valorFrete;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "nome='" + nome + '\'' +
+                ", peso=" + peso +
+                ", preco=" + preco +
+                ", precoFinal=" + precoFinal +
+                ", valorFrete=" + valorFrete +
+                '}';
+    }
+}
+
+```
+
+```java
+public interface ITransportavel {
+    public void calculaFrete();
+}
+
+```
+
+```java
+public interface ITributavel {
+
+    // Atributos
+    //public static final double IMPOSTO = 0.2;
+    double IMPOSTO = 0.2;
+
+    // Métodos
+    //public abstract void calcularImposto();
+    void calcularImposto();
+}
+
+```
+
+```java
+public class ProdutoTeste {
+    public static void main(String[] args) {
+        Produto p = new Produto("Notebook", 4, 2000);
+        p.calcularImposto();
+        p.calculaFrete();
+        System.out.println(p);
+    }
+}
+
+```
+
+```
+Produto{nome='Notebook', peso=4.0, preco=2000.0, precoFinal=2400.0, valorFrete=50.0}
+```
+
+**`EXEMPLO CHATGPT`**
+
+```java
+public interface Desenhavel {
+    void desenhar(); // Método abstrato
+}
+```
+
+```java
+public class Circulo implements Desenhavel {
+    @Override
+    public void desenhar() {
+        System.out.println("Desenhando um círculo.");
+    }
+}
+
+public class Quadrado implements Desenhavel {
+    @Override
+    public void desenhar() {
+        System.out.println("Desenhando um quadrado.");
+    }
+}
+```
+
+```java
+Desenhavel d = new Circulo(); // Polimorfismo
+d.desenhar(); // Saída: Desenhando um círculo.
+```
+
+## Interfaces pt 02 - Implementando múltiplas
+
+- Uma classe pode implementar múltiplas interfaces. Isso é útil quando queremos que uma classe adote comportamentos definidos em várias interfaces diferentes.
+
+- Em classes quando esta trabalhando com extensão você não pode estender mais de uma classe porem quando esta trabalhando com interface pode implementar multiplas interfaces na classe;
+
+- Métodos com implementação a partir do java 8;
+
+**`EXEMPLO CHATGPT`**
+
+```java
+public interface Tributavel {
+    void calcularImposto();
+}
+
+public interface Transportavel {
+    void calcularFrete();
+}
+```
+
+```java
+public class Produto implements Tributavel, Transportavel {
+    private String nome;
+    private double preco;
+    private double peso;
+    private double precoFinal;
+    private double valorFrete;
+
+    public Produto(String nome, double preco, double peso) {
+        this.nome = nome;
+        this.preco = preco;
+        this.peso = peso;
+    }
+
+    @Override
+    public void calcularImposto() {
+        this.precoFinal = this.preco + (this.preco * 0.2); // 20% de imposto
+    }
+
+    @Override
+    public void calcularFrete() {
+        this.valorFrete = this.peso * 10; // R$10 por kg
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "nome='" + nome + '\'' +
+                ", preco=" + preco +
+                ", peso=" + peso +
+                ", precoFinal=" + precoFinal +
+                ", valorFrete=" + valorFrete +
+                '}';
+    }
+}
+```
+
+```java
+public class TesteProduto {
+    public static void main(String[] args) {
+        Produto produto = new Produto("Notebook", 3000, 2.5);
+        produto.calcularImposto();
+        produto.calcularFrete();
+
+        System.out.println(produto);
+    }
+}
+```
+
+```
+Produto{nome='Notebook', preco=3000.0, peso=2.5, precoFinal=3600.0, valorFrete=25.0}
+```
+
+## Collection
+
+`Collection` - (uma lista) para armazenar e manipular diferentes tipos de animais.
+
+```java
+public interface Animal {
+    void emitirSom();
+}
+```
+
+```java
+public class Cachorro implements Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Cachorro: Au Au!");
+    }
+}
+```
+
+```java
+public class Gato implements Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Gato: Miau!");
+    }
+}
+```
+
+```java
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class TesteCollection {
+    public static void main(String[] args) {
+        // Criação de uma coleção para armazenar animais
+        Collection<Animal> animais = new ArrayList<>();
+
+        // Adicionando diferentes tipos de animais
+        animais.add(new Cachorro());
+        animais.add(new Gato());
+        animais.add(new Cachorro());
+
+        // Iterando sobre a coleção e chamando o método emitirSom
+        for (Animal animal : animais) {
+            animal.emitirSom();
+        }
+    }
+}
+```
+
+```
+Cachorro: Au Au!
+Gato: Miau!
+Cachorro: Au Au!
+```
+
+## Interfaces pt 03 - Atributos e métodos estáticos
+
+- Em Java, interfaces podem ter atributos e métodos estáticos desde o Java 8. Os atributos definidos em uma interface são implicitamente public static final (constantes), e os métodos estáticos podem conter implementações.
+
+1. - Atributos na Interface:
+
+- PI é uma constante (public static final) disponível para todos os usuários da interface.
+- Não precisa ser instanciado para ser acessado.
+
+2. - Métodos Estáticos:
+
+- multiplicar e calcularCircunferencia podem ser chamados diretamente na interface.
+- Não dependem de nenhuma implementação concreta da interface.
+
+3. - Método Abstrato:
+
+- somar é abstrato e deve ser implementado por qualquer classe que implemente a interface.
+
+4. - Flexibilidade:
+
+- Métodos estáticos fornecem funcionalidades úteis diretamente pela interface, sem precisar criar uma instância de uma classe.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+public interface Calculadora {
+    // Atributo estático (constante)
+    double PI = 3.14159;
+
+    // Método abstrato (obrigatório para implementação)
+    double somar(double a, double b);
+
+    // Método estático com implementação
+    static double multiplicar(double a, double b) {
+        return a * b;
+    }
+
+    // Método estático adicional
+    static double calcularCircunferencia(double raio) {
+        return 2 * PI * raio;
+    }
+}
+```
+
+```java
+public class CalculadoraSimples implements Calculadora {
+    @Override
+    public double somar(double a, double b) {
+        return a + b;
+    }
+}
+```
+
+```java
+public class TesteCalculadora {
+    public static void main(String[] args) {
+        // Uso do método estático da interface
+        double produto = Calculadora.multiplicar(5, 4);
+        System.out.println("Multiplicação: " + produto);
+
+        // Uso da constante definida na interface
+        double circunferencia = Calculadora.calcularCircunferencia(10);
+        System.out.println("Circunferência (raio 10): " + circunferencia);
+
+        // Uso da implementação de um método abstrato
+        Calculadora calc = new CalculadoraSimples();
+        double soma = calc.somar(7, 3);
+        System.out.println("Soma: " + soma);
+    }
+}
+```
+
+```
+Multiplicação: 20.0
+Circunferência (raio 10): 62.8318
+Soma: 10.0
+```
+
+## Polimorfismo pt 01 - Introdução
+
+`polimorfismo` -> é a capacidade de um objeto assumir diferentes formas;
+
+- criar um pacote de serviço, porque quando estamos trabalhando com `arquitetura MVC` você separa o seu modelo que é o dominio do controller; separar a regra de negócio do seu dominio que representa o banco de dados com o que você vai vizualizar;
+
+- Reduz a repetição de código: Um único método genérico funciona para todas as subclasses de Funcionario.
+- Facilita a manutenção e extensão: Novas subclasses podem ser adicionadas sem alterar o código existente.
+- Proporciona flexibilidade: O comportamento depende do objeto real em tempo de execução, e não do tipo declarado.
+
+```java
+public abstract class Funcionario {//Uma classe abstrata não pode ser instanciada diretamente; Serve como uma base para outras classes. Contém métodos que podem ser implementados ou sobrescritos por suas subclasses.
+    protected String nome;
+    protected double salario;
+
+    public Funcionario(String nome, double salario) {
+        this.nome = nome;
+        this.salario = salario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    @Override
+    public String toString() {
+        return "Funcionario{" +
+                "nome='" + nome + '\'' +
+                ", salario=" + salario +
+                '}';
+    }
+
+    public abstract void calcularPagamento();//O método calcularPagamento() é abstrato, ou seja, obrigatoriamente deve ser implementado por todas as subclasses.
+}
+
+```
+
+```java
+/*Classes Vendedor e Gerente
+Ambas herdam de Funcionario.
+Cada uma implementa o método abstrato calcularPagamento() de forma diferente:
+Vendedor: Adiciona 5% do total de vendas ao salário.
+Gerente: Adiciona o valor do pnl (Participação nos Lucros) ao salário.
+Sobrescrevem métodos abstratos para fornecer um comportamento específico.*/
+public class Vendedor  extends Funcionario{
+    private double totalVendas;
+
+    public Vendedor(String nome, double salario, double totalVendas) {
+        super(nome, salario);
+        this.totalVendas = totalVendas;
+    }
+
+    public double getTotalVendas() {
+        return totalVendas;
+    }
+
+    public void setTotalVendas(double totalVendas) {
+        this.totalVendas = totalVendas;
+    }
+
+    @Override
+    public void calcularPagamento() {
+        this.salario = this.salario + (totalVendas * 0.05);
+    }
+}
+
+```
+
+```java
+public class Gerente extends Funcionario{
+    private double pnl;
+
+    public Gerente(String nome, double salario, double pnl) {
+        super(nome, salario);
+        this.pnl = pnl;
+    }
+
+    public double getPnl() {
+        return pnl;
+    }
+
+    public void setPnl(double pnl) {
+        this.pnl = pnl;
+    }
+
+    @Override
+    public void calcularPagamento() {
+        this.salario = this.salario + pnl;
+    }
+}
+
+```
+
+```java
+public class RelatorioPagamento {
+
+    /*public void relatorioPagamentoGerente(Gerente gerente){
+        System.out.println("RELATORIO PARAMENTO GERENTE");
+        gerente.calcularPagamento();
+        System.out.println("Nome: "+ gerente.getNome());
+        System.out.println("Salario do mes "+ gerente.getSalario());
+    }
+
+    public void relatorioPagamentoVendedor(Vendedor vendedor){
+        System.out.println("RELATORIO PARAMENTO VENDEDOR");
+        vendedor.calcularPagamento();
+        System.out.println("Nome: "+ vendedor.getNome());
+        System.out.println("Salario do mes "+ vendedor.getSalario());
+    }*/
+
+   /*Mostra como usar o polimorfismo.
+    O método relatorioPagamentoGenerico(Funcionario funcionario) aceita qualquer objeto do tipo Funcionario, incluindo objetos de suas subclasses (Vendedor ou Gerente).
+    Chama o método calcularPagamento() de forma genérica, mas o comportamento específico depende do tipo do objeto.*/
+
+    public void relatorioPagamentoGenerico(Funcionario funcionario){
+        System.out.println("RELATORIO PARAMENTO VENDEDOR");
+        funcionario.calcularPagamento();
+        System.out.println("Nome: "+ funcionario.getNome());
+        System.out.println("Salario do mes "+ funcionario.getSalario());
+    }
+
+}
+
+```
+
+```java
+public class PolimorfismoTeste {
+    public static void main(String[] args) {
+        Gerente g = new Gerente("Jose", 5000 , 2000);
+        Vendedor v = new Vendedor("Mario", 2000, 20000);
+
+        RelatorioPagamento relatorioPagamento = new RelatorioPagamento();
+//        relatorioPagamento.relatorioPagamentoGerente(g);
+//        System.out.println("------------------------------------------------------");
+//        relatorioPagamento.relatorioPagamentoVendedor(v);
+
+
+        /*Polimorfismo em Ação
+        Quando o método relatorioPagamentoGenerico é chamado:
+
+        Mesmo que o tipo do parâmetro seja Funcionario, o método calcularPagamento() executado é o correspondente à classe real do objeto (Gerente ou Vendedor).
+        Isso acontece porque o Java determina o método a ser executado em tempo de execução (Dynamic Method Dispatch).*/
+        relatorioPagamento.relatorioPagamentoGenerico(g);
+        System.out.println("------------------------------------------------------");
+        relatorioPagamento.relatorioPagamentoGenerico(v);
+
+//        Funcionario f = g;
+//        System.out.println("##########################");
+//        System.out.println(f.getSalario());
+
+    }
+
+}
+
+```
+
+```
+    RELATORIO PARAMENTO VENDEDOR
+    Nome: Jose
+    Salario do mes 7000.0
+    ------------------------------------------------------
+    RELATORIO PARAMENTO VENDEDOR
+    Nome: Mario
+    Salario do mes 3000.0
+```
+
+## Polimorfismo pt 02 - Funcionamento
+
+`polimorfismo` -> significa multiplas formas; que você pode trocar o tipo da variável de referência mas ainda continua utilizando outros objetos, isso só é aplicado na herança;
+
+`Exemplo` -> você tem seu controle(variavel de referencia) e sua tv(objeto) porem saiu um modelo mais novo de tv tambem é um modelo samsung mas mais moderno ou seja é uma extensção, você tem todos atributos mais o youtube agora, tv2020 digamos que é subclasse da samsung porem nós ainda estamos utilizando o controle de 2019, o controle de 2019 tambem pode fazer referencia para o objeto tv2020, consigo chamar netflix e prime mas não é possivel chamar youtube;
+
+- O que executa é sempre o objeto;
+- A garantia que a herança fornece é que todos atributos que eu tenho na minha superclasse podem ser chamados na subclasse porque eu sei que eles vão ser herdados;
+- Tipo mais genérico `X x =` que é a superclasse estamos fazendo referencia para um tipo mais específico `new X()`, tudo que tenho no genérico o específico vai ter porque é o filho;
+
+> <img alt="" src="./img/polimorfismo3.png" width="100%"></br>
+
+## Polimorfismo pt 03 - Parâmetros polimórficos
+
+- Parâmetros polimórficos referem-se a argumentos que podem ser de diferentes tipos em tempo de execução, permitindo que uma única interface de método ou função possa aceitar vários tipos de objetos, proporcionando flexibilidade e reutilização de código. Em Java, isso é frequentemente realizado através da utilização de genéricos ou métodos que aceitam tipos variados.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+//Animal é a classe base que define o método emitirSom().
+class Animal {
+    void emitirSom() {
+        System.out.println("Som do animal genérico.");
+    }
+}
+//Cachorro e Gato são subclasses que sobrescrevem o método emitirSom().
+class Cachorro extends Animal {
+    @Override
+    void emitirSom() {
+        System.out.println("Au au!");
+    }
+}
+
+class Gato extends Animal {
+    @Override
+    void emitirSom() {
+        System.out.println("Miau miau!");
+    }
+}
+
+// Método que aceita qualquer tipo de Animal
+class PolimorfismoExemplo {
+
+    // Método genérico que aceita um array de qualquer tipo de Animal
+    //O método fazerBarulho é um exemplo de parâmetro polimórfico que aceita um ou mais objetos do tipo Animal (ou suas subclasses) como argumentos.
+    static void fazerBarulho(Animal... animais) {
+        for (Animal animal : animais) {
+            animal.emitirSom();
+        }
+    }
+
+    public static void main(String[] args) {
+        Cachorro cachorro = new Cachorro();
+        Gato gato = new Gato();
+
+        //Durante a execução, o polimorfismo permite que cada objeto de Cachorro ou Gato chame o método emitirSom() conforme sua própria implementação.
+        // Passando vários objetos de diferentes tipos como parâmetros
+        fazerBarulho(cachorro, gato);
+    }
+}
+```
+
+## Polimorfismo pt 04 - Cast e instanceof
+
+- Em Java, o polimorfismo permite que você manipule objetos de diferentes classes derivadas utilizando uma interface comum. Às vezes, é necessário usar cast e o operador instanceof para verificar e tratar objetos de diferentes tipos.
+
+1. - `instanceof`: é um operador que verifica se um objeto é uma instância de uma classe específica ou de qualquer uma de suas subclasses. Retorna true se o objeto for uma instância da classe ou de uma de suas subclasses, caso contrário, retorna false.
+
+2. - `Cast`: é usado para converter um objeto de uma classe base para uma classe derivada, desde que o tipo de objeto e a classe de destino sejam compatíveis.
+
+**Explicação:**
+
+`Uso de instanceof:`
+
+- No método `tratarAnimal()`, o operador `instanceof` verifica o tipo do objeto passado como argumento. Se o objeto for um `Cachorro`, o cast para `Cachorro` é válido e possível.
+- Se o objeto for um `Gato`, o cast para `Gato` é usado.
+- Se for de outro tipo de `Animal`, ele apenas chama o método `emitirSom()` da classe base.
+
+`Cast:`
+
+- O cast é utilizado para converter um objeto de tipo base para o tipo derivado apropriado, se necessário.
+- No exemplo, o cast de Animal para Cachorro ou Gato é seguro porque instanceof garantiu que o objeto é realmente uma instância dessas subclasses.
+
+- O uso de instanceof e cast é comum em situações onde se necessita tratar objetos de várias subclasses de uma mesma superclasse de maneira dinâmica em tempo de execução, mantendo a estrutura de polimorfismo.
+
+**`EXEMPLO CHATGPT`**
+
+```java
+class Animal {
+    void emitirSom() {
+        System.out.println("Som do animal genérico.");
+    }
+}
+
+class Cachorro extends Animal {
+    @Override
+    void emitirSom() {
+        System.out.println("Au au!");
+    }
+}
+
+class Gato extends Animal {
+    @Override
+    void emitirSom() {
+        System.out.println("Miau miau!");
+    }
+}
+
+public class PolimorfismoExemplo {
+
+    public static void tratarAnimal(Animal animal) {
+        if (animal instanceof Cachorro) {
+            Cachorro cachorro = (Cachorro) animal; // Cast para Cachorro
+            cachorro.emitirSom();
+        } else if (animal instanceof Gato) {
+            Gato gato = (Gato) animal; // Cast para Gato
+            gato.emitirSom();
+        } else {
+            animal.emitirSom();
+        }
+    }
+
+    public static void main(String[] args) {
+        Animal cachorro = new Cachorro();
+        Animal gato = new Gato();
+
+        // Chama o método para tratar o animal
+        tratarAnimal(cachorro);
+        tratarAnimal(gato);
+    }
+}
+```
+
+## Polimorfismo pt 05 - Programação orientada a interface
+
+- A programação orientada a interface (POI) é um padrão de design que enfatiza o uso de interfaces para definir contratos de comportamento em vez de classes concretas. Isso promove a flexibilidade e a reusabilidade do código, permitindo que diferentes implementações de interfaces sejam substituídas por outras conforme necessário sem afetar a lógica do código.
+
+```java
+// Definição da interface
+interface Animal {
+    void emitirSom();
+}
+
+// Implementação da interface por diferentes classes
+class Cachorro implements Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Au au!");
+    }
+}
+
+class Gato implements Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Miau miau!");
+    }
+}
+
+// Classe que utiliza a interface Animal
+public class ProgramaPOI {
+    public static void tratarAnimal(Animal animal) {
+        animal.emitirSom();
+    }
+
+    public static void main(String[] args) {
+        Animal cachorro = new Cachorro();
+        Animal gato = new Gato();
+
+        // Chama o método que trata o animal, passando objetos de diferentes tipos
+        tratarAnimal(cachorro);
+        tratarAnimal(gato);
+    }
+}
+```
+
+<h3 align="center">Java Como Programar (Paul Deitel Harvey Deitel)</h3>
+</br>
+
+## Classe Math
+
+> <img alt="" src="./img/math.png" width="100%"></br>
+> <img alt="" src="./img/math2.png" width="100%"></br>
+> <img alt="" src="./img/math3.png" width="100%"></br>
+> <img alt="" src="./img/math4.png" width="100%"></br>
+> <img alt="" src="./img/argumentos.png" width="100%"></br>
+> <img alt="" src="./img/argumentos2.png" width="100%"></br>
+
+# Pacotes
+
+> <img alt="" src="./img/pacotes.png" width="100%"></br>
+> <img alt="" src="./img/pacotes2.png" width="100%"></br>
+> <img alt="" src="./img/pacotes3.png" width="100%"></br>
+
+## Arrays de arrays unidimensionais
+
+> <img alt="" src="./img/array.png" width="100%"></br>
+
+## Introdução a coleções e classe ArrayList
+
+> <img alt="" src="./img/colecoes.png" width="100%"></br>
+> <img alt="" src="./img/colecoes2.png" width="100%"></br>
+> <img alt="" src="./img/colecoes3.png" width="100%"></br>
 
 ## �� Tecnologias
 
